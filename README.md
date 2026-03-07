@@ -42,7 +42,6 @@ Este proyecto ha sido desarrollado para la asignatura **Sistemas Web II**. Se tr
 * [![Node][Node.js]][Node-url]
 * [![Express][Express.js]][Express-url]
 * [![MongoDB][MongoDB]][MongoDB-url]
-* [![Swagger][Swagger]][Swagger-url]
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
