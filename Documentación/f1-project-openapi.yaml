@@ -452,6 +452,94 @@ paths:
           description: Resource not found
         '500':
           description: Internal server error
+   /drivers:
+    get:
+      tags:
+        - Drivers
+      summary: Get all drivers
+      description: Returns a list of drivers with optional filters.
+      parameters:
+        - name: driverRef
+          in: query
+          schema:
+            type: string
+          description: Filter by driver reference
+        - name: number
+          in: query
+          schema:
+            type: integer
+          description: Filter by driver number
+        - name: code
+          in: query
+          schema:
+            type: string
+          description: Filter by driver code
+        - name: forename
+          in: query
+          schema:
+            type: string
+          description: Filter by driver forename (partial match)
+        - name: surname
+          in: query
+          schema:
+            type: string
+          description: Filter by driver surname (partial match)
+        - name: dob
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter by date of birth
+        - name: nationality
+          in: query
+          schema:
+            type: string
+          description: Filter by nationality
+        - name: url
+          in: query
+          schema:
+            type: string
+            format: uri
+          description: Filter by Wikipedia URL
+      responses:
+        '200':
+          description: List of drivers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+
+   /drivers/{driverId}:
+    get:
+      tags:
+        - Drivers
+      summary: Get a specific driver by id
+      parameters:
+        - name: driverId
+          in: path
+          required: true
+          description: Numeric id for the driver
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Driver details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+        '404':
+          description: Driver not found
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
    /drivers/{driverId}/results:
     parameters:
      - $ref: '#/components/parameters/driverId'
@@ -638,8 +726,10 @@ components:
           type: string
         number:
           type: integer
+          nullable: true
         code:
           type: string
+          nullable: true
         forename:
           type: string
         surname:
