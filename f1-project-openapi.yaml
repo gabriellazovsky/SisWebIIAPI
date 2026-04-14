@@ -1,0 +1,879 @@
+openapi: 3.1.0
+info:
+  title: API de Fórmula 1 Proyecto
+  description: Esta API permite gestionar pilotos, escuderías y resultados de F1.
+  version: 1.0.0
+paths:
+   /constructors:
+    get:
+      tags:
+      - Constructors
+      summary: Get all constructors
+      description: Returns a list of constructors with optional filters and pagination.
+      parameters:
+      - name: nationality
+        in: query
+        description: Filter by constructor nationality
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string   
+        description: Filter by constructor name (partial match) 
+      - name: constructorREF
+        in: query
+        schema:
+          type: string
+        description: Filter by constructor reference
+      - name: url
+        in: query
+        schema:
+          type: string
+        description: Filter by constructor URL (partial match)
+      responses:
+        '200':
+          description: List of constructors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/Constructor'
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+   /constructors/{constructorId}:
+    get:
+      tags:
+      - Constructors
+      summary: Get a specific constructor by id
+      parameters:
+        - name: constructorId
+          in: path
+          required: true
+          description: numeric Id for the constructor
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constructor details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Constructor'
+        '404':
+          description: Constructor not found
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+          
+   /constructors/{constructorId}/results:
+    get:
+      tags:
+        - Constructors
+        - Results
+      summary: Get race results for a constructor
+      description: Returns all race results for a specific constructor, with optional filters and pagination.
+      parameters:
+        - name: constructorId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: raceId
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Filter results by race ID
+        - name: points
+          in: query
+          required: false
+          schema:
+            type: number
+            format: float
+          description: Filter results by points
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter results by status
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Race results for the constructor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConstructorResult'
+        '400':
+          description: Invalid request parameters
+        '404':
+          description: Constructor not found
+        '500':
+          description: Internal server error
+   /constructors-results:
+    get:
+      tags:
+        - Constructors
+        - Results
+      summary: Get constructor results with filters
+      parameters:
+        - name: constructorResultId
+          in: query
+          schema:
+            type: integer
+        - name: raceId
+          in: query
+          schema:
+            type: integer
+        - name: constructorId
+          in: query
+          schema:
+            type: integer
+        - name: points
+          in: query
+          schema:
+            type: number        
+            format: float
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of constructor results matching the filters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConstructorResult'
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+   /constructors-results/{constructorResultId}:
+    get:
+      tags:
+        - Constructors
+        - Results
+      summary: Get a specific constructor result by constructorResultId
+      parameters:
+        - name: constructorResultId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constructor result details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstructorResult'
+        '404':
+          description: Constructor result not found
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+  
+   /constructor-results/{raceId}/{constructorId}:
+    get:
+      tags:
+        - Constructor Results
+      summary: Get constructor result by raceId and constructorId
+      parameters:
+        - in: path
+          name: raceId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: constructorId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constructor result found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstructorResult'
+        '400':
+          description: Invalid request parameters
+        '404':
+          description: Constructor not found
+        '500':
+          description: Internal server error
+   /constructors-standings:
+    get:
+      tags:
+      - Constructors
+      - Standings
+      summary: Get constructor standings with filters
+      parameters:
+       - name: constructorStandingsId
+         in: query
+         schema:
+          type: integer
+       - name: raceId
+         in: query
+         schema:
+            type: integer
+       - name: constructorId
+         in: query
+         schema:
+          type: integer
+       - name: points
+         in: query
+         schema:
+           type: number        
+           format: float
+       - name: position
+         in: query
+         schema:
+          type: integer
+       - name: positionText
+         in: query
+         schema:
+           type: string
+       - name: wins
+         in: query
+         schema:
+            type: integer
+       - name: page
+         in: query
+         schema:
+            type: integer
+       - name: limit
+         in: query
+         schema:
+            type: integer
+      responses:
+        '200':
+          description: List of constructor standings matching the filters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConstructorStanding'
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+   /constructors-standings/{constructorStandingsId}:
+    get:
+      tags:
+        - Constructors
+        - Standings
+      summary: Get a specific constructor standing by constructorStandingsId
+      parameters:
+        - name: constructorStandingsId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constructor standing details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstructorStanding'
+        '404':
+          description: Constructor standing not found
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+
+   /constructor-standings/{raceId}/{constructorId}:
+    get:
+      tags:
+        - Constructor Standings
+      summary: Get constructor standing by raceId and constructorId
+      parameters:
+        - in: path
+          name: raceId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: constructorId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constructor standing found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstructorStanding'
+        '400':
+         description: Invalid request parameters
+        '404':
+         description: Constructor not found
+        '500':
+         description: Internal server error
+  
+   /circuits:
+    get:
+      tags:
+      - Circuits
+      summary: Get all circuits
+      parameters:
+      - name: circuitRef
+        in: query
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: location
+        in: query
+        schema:
+          type: string
+      - name: lat
+        in: query
+        schema:
+          type: number
+          format: float
+      - name: lng
+        in: query
+        schema:
+          type: number
+          format: float
+      - name: alt
+        in: query
+        schema:
+          type: integer
+      - name: url
+        in: query
+        schema:
+          type: string
+          format: uri
+      - name: country
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of circuits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Circuit'
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+   /circuits/{circuitId}:
+    get:
+      tags:
+      - Circuits
+      summary: Get a specific circuit
+      parameters:
+      - name: circuitId
+        in: path
+        required: true
+        description: numeric Id for the circuit
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Circuit details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Circuit'
+        '404':
+          description: Circuit not found
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+   /circuits/{circuitId}/races:
+    get:
+      tags:
+      - Circuits
+      summary: Get all races held at a circuit
+      parameters:
+      - name: circuitId
+        in: path
+        required: true
+        description: numeric Id for the circuit
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Races at this circuit
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Race'
+        '400':
+          description: Invalid request parameters
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+   /drivers/{driverId}/results:
+    parameters:
+     - $ref: '#/components/parameters/driverId'
+    get:
+     tags:
+       - Drivers
+     summary: Get race results for a driver
+     parameters:
+      - name: season
+        in: query
+        description: Filter results by season year
+        schema:
+          type: integer
+     responses:
+      '200':
+        description: Race results for the driver
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Result'
+      '400':
+        description: Invalid request parameters
+      '404':
+        description: Driver not found
+      '500':
+        description: Internal server error
+
+   /drivers/{driverId}/standings:
+      parameters:
+        - $ref: '#/components/parameters/driverId'
+      get:
+        tags:
+          - Drivers
+        summary: Get championship standings for a driver
+        parameters:
+          - name: season
+            in: query
+            description: Filter standings by season year
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: Standing entries
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DriverStanding'
+          '400':
+            description: Invalid request parameters
+          '404':
+            description: Driver not found
+          '500':
+            description: Internal server error
+
+   /drivers/{driverId}/qualifying:
+      parameters:
+        - $ref: '#/components/parameters/driverId'
+      get:
+        tags:
+          - Drivers
+        summary: Get qualifying results for a driver
+        parameters:
+          - name: season
+            in: query
+            description: Filter qualifying results by season year
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: Qualifying results for the driver
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/QualifyingResult'
+          '400':
+            description: Invalid request parameters
+          '404':
+            description: Driver not found
+          '500':
+            description: Internal server error
+
+   /drivers/{driverId}/lap-times:
+      parameters:
+        - $ref: '#/components/parameters/driverId'
+      get:
+        tags:
+          - Drivers
+        summary: Get lap times for a driver
+        parameters:
+          - name: raceId
+            in: query
+            description: Filter lap times by race ID
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: Lap time records for the driver
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LapTime'
+          '400':
+            description: Invalid request parameters
+          '404':
+            description: Driver not found
+          '500':
+            description: Internal server error
+
+   /drivers/{driverId}/pit-stops:
+      parameters:
+        - $ref: '#/components/parameters/driverId'
+      get:
+        tags:
+          - Drivers
+        summary: Get pit stop records for a driver
+        parameters:
+          - name: raceId
+            in: query
+            description: Filter pit stops by race ID
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: Pit stop records for the driver
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/PitStop'
+          '400':
+            description: Invalid request parameters
+          '404':
+            description: Driver not found
+          '500':
+            description: Internal server error
+components:
+  parameters:
+    driverId:
+      name: driverId
+      in: path
+      required: true
+      schema:
+        type: integer
+    constructorId:
+      name: constructorId
+      in: path
+      required: true
+      schema:
+        type: integer
+    circuitId:
+      name: circuitId
+      in: path
+      required: true
+      schema:
+        type: integer
+    year:
+      name: year
+      in: path
+      required: true
+      schema:
+        type: integer
+    round:
+      name: round
+      in: path
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Driver:
+      type: object
+      properties:
+        driverId:
+          type: integer
+        driverRef:
+          type: string
+        number:
+          type: integer
+        code:
+          type: string
+        forename:
+          type: string
+        surname:
+          type: string
+        dob:
+          type: string
+          format: date
+        nationality:
+          type: string
+        url:
+          type: string
+          format: uri
+    Constructor:
+      type: object
+      properties:
+        constructorId:
+          type: integer
+        constructorRef:
+          type: string
+        name:
+          type: string
+        nationality:
+          type: string
+        url:
+          type: string
+          format: uri
+    ConstructorResult:
+      type: object
+      properties:
+        constructorResultId:
+          type: integer
+        raceId:
+          type: integer
+        constructorId:
+          type: integer
+        points:
+          type: integer
+        status:
+          type: string
+    ConstructorStanding:
+      type: object
+      properties:
+        constructorStandingsId:
+          type: integer
+          description: Unic Id for the constructor standing entry
+        raceId:
+          type: integer
+          description: Race ID up to which the standing is calculated
+        constructorId:
+          type: integer
+          description: Constructor ID 
+        points:
+          type: integer
+          description: Acumulated points  in championship
+        position:
+          type: integer
+          description: numeric position in the table
+        positionText:
+          type: string
+          description: position in the table as string
+        wins:
+          type: integer
+          description: number of wins in the season
+    Circuit:
+      type: object
+      properties:
+        circuitId:
+          type: integer
+        circuitRef:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        country:
+          type: string
+        lat:
+          type: number
+          format: float
+        lng:
+          type: number
+          format: float
+        alt:
+          type: integer
+        url:
+          type: string
+          format: uri
+    Season:
+      type: object
+      properties:
+        year:
+          type: integer
+        url:
+          type: string
+          format: uri
+    Race:
+      type: object
+      properties:
+        raceId:
+          type: integer
+        year:
+          type: integer
+        round:
+          type: integer
+        circuitId:
+          type: integer
+        name:
+          type: string
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+        url:
+          type: string
+          format: uri
+    Result:
+      type: object
+      properties:
+        resultId:
+          type: integer
+        raceId:
+          type: integer
+        driverId:
+          type: integer
+        constructorId:
+          type: integer
+        number:
+          type: integer
+        grid:
+          type: integer
+        position:
+          type: integer
+          nullable: true
+        positionText:
+          type: string
+        positionOrder:
+          type: integer
+        points:
+          type: number
+        laps:
+          type: integer
+        time:
+          type: string
+          nullable: true
+        milliseconds:
+          type: integer
+          nullable: true
+        fastestLap:
+          type: integer
+          nullable: true
+        rank:
+          type: integer
+          nullable: true
+        fastestLapTime:
+          type: string
+          nullable: true
+        fastestLapSpeed:
+          type: string
+          nullable: true
+        statusId:
+          type: integer
+    DriverStanding:
+      type: object
+      properties:
+        driverStandingsId:
+          type: integer
+        raceId:
+          type: integer
+        driverId:
+          type: integer
+        points:
+          type: number
+        position:
+          type: integer
+        positionText:
+          type: string
+        wins:
+          type: integer
+    QualifyingResult:
+      type: object
+      properties:
+        qualifyId:
+          type: integer
+        raceId:
+          type: integer
+        driverId:
+          type: integer
+        constructorId:
+          type: integer
+        number:
+          type: integer
+        position:
+          type: integer
+        q1:
+          type: string
+          nullable: true
+        q2:
+          type: string
+          nullable: true
+        q3:
+          type: string
+          nullable: true
+    LapTime:
+      type: object
+      properties:
+        raceId:
+          type: integer
+        driverId:
+          type: integer
+        lap:
+          type: integer
+        position:
+          type: integer
+        time:
+          type: string
+        milliseconds:
+          type: integer
+    PitStop:
+      type: object
+      properties:
+        raceId:
+          type: integer
+        driverId:
+          type: integer
+        stop:
+          type: integer
+        lap:
+          type: integer
+        time:
+          type: string
+        duration:
+          type: string
+          nullable: true
+        milliseconds:
+          type: integer
+          nullable: true
