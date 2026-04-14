@@ -19,8 +19,8 @@ paths:
       - name: name
         in: query
         schema:
-          type: string   
-        description: Filter by constructor name (partial match) 
+          type: string
+        description: Filter by constructor name (partial match)
       - name: constructorREF
         in: query
         schema:
@@ -151,7 +151,7 @@ paths:
         - name: points
           in: query
           schema:
-            type: number        
+            type: number
             format: float
         - name: status
           in: query
@@ -255,7 +255,7 @@ paths:
        - name: points
          in: query
          schema:
-           type: number        
+           type: number
            format: float
        - name: position
          in: query
@@ -684,6 +684,270 @@ paths:
             description: Driver not found
           '500':
             description: Internal server error
+   /results:
+    get:
+      tags:
+        - Results
+      summary: Get race results with filters
+      parameters:
+        - name: season
+          in: query
+          schema:
+            type: integer
+        - name: driverId
+          in: query
+          schema:
+            type: integer
+        - name: constructorId
+          in: query
+          schema:
+            type: integer
+        - name: position
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Data retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Result'
+        '400':
+          description: Invalid request parameters or format.
+        '404':
+          description: No results found for the specified criteria.
+        '500':
+          description: Internal server error during data retrieval.
+
+   /results/{resultId}:
+    parameters:
+      - name: resultId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Results
+      summary: Get a single result by ID
+      responses:
+        '200':
+          description: Result details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '404':
+          description: Result ID not found.
+        '400':
+          description: Invalid ID format.
+        '500':
+          description: Internal server error.
+
+   /standings/drivers:
+    get:
+      tags:
+        - Standings
+      summary: Get driver standings with filters
+      parameters:
+        - name: season
+          in: query
+          schema:
+            type: integer
+        - name: driverId
+          in: query
+          schema:
+            type: integer
+        - name: position
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Driver standings retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DriverStanding'
+        '400':
+          description: Invalid filter parameters.
+        '404':
+          description: Standings not found for the given parameters.
+        '500':
+          description: Internal server error.
+
+   /standings/constructors:
+    get:
+      tags:
+        - Standings
+      summary: Get constructor standings with filters
+      parameters:
+        - name: season
+          in: query
+          schema:
+            type: integer
+        - name: constructorId
+          in: query
+          schema:
+            type: integer
+        - name: position
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Constructor standings retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConstructorStanding'
+        '400':
+          description: Invalid query syntax or parameters.
+        '404':
+          description: Constructor data not found.
+        '500':
+          description: Internal server error.
+
+   /qualifying:
+    get:
+      tags:
+        - Qualifying
+      summary: Get qualifying results with filters
+      parameters:
+        - name: season
+          in: query
+          schema:
+            type: integer
+        - name: driverId
+          in: query
+          schema:
+            type: integer
+        - name: constructorId
+          in: query
+          schema:
+            type: integer
+        - name: position
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Qualifying data retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QualifyingResult'
+        '400':
+          description: Request format error.
+        '404':
+          description: No qualifying records found.
+        '500':
+          description: Internal server error.
+
+   /lap-times:
+    get:
+      tags:
+        - Lap Times
+      summary: Get lap times with filters
+      parameters:
+        - name: raceId
+          in: query
+          schema:
+            type: integer
+        - name: driverId
+          in: query
+          schema:
+            type: integer
+        - name: lap
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lap time data retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LapTime'
+        '400':
+          description: Missing or invalid raceId.
+        '404':
+          description: Lap times not found.
+        '500':
+          description: Internal server error.
+
+   /pit-stops:
+    get:
+      tags:
+        - Pit Stops
+      summary: Get pit stop records with filters
+      parameters:
+        - name: raceId
+          in: query
+          schema:
+            type: integer
+        - name: driverId
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pit stop records retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PitStop'
+        '400':
+          description: Invalid request schema.
+        '404':
+          description: No pit stop data found.
+        '500':
+          description: Internal server error.
 components:
   parameters:
     driverId:
@@ -726,10 +990,8 @@ components:
           type: string
         number:
           type: integer
-          nullable: true
         code:
           type: string
-          nullable: true
         forename:
           type: string
         surname:
@@ -780,7 +1042,7 @@ components:
           description: Race ID up to which the standing is calculated
         constructorId:
           type: integer
-          description: Constructor ID 
+          description: Constructor ID
         points:
           type: integer
           description: Acumulated points  in championship
@@ -863,7 +1125,6 @@ components:
           type: integer
         position:
           type: integer
-          nullable: true
         positionText:
           type: string
         positionOrder:
@@ -874,22 +1135,16 @@ components:
           type: integer
         time:
           type: string
-          nullable: true
         milliseconds:
           type: integer
-          nullable: true
         fastestLap:
           type: integer
-          nullable: true
         rank:
           type: integer
-          nullable: true
         fastestLapTime:
           type: string
-          nullable: true
         fastestLapSpeed:
           type: string
-          nullable: true
         statusId:
           type: integer
     DriverStanding:
@@ -926,13 +1181,10 @@ components:
           type: integer
         q1:
           type: string
-          nullable: true
         q2:
           type: string
-          nullable: true
         q3:
           type: string
-          nullable: true
     LapTime:
       type: object
       properties:
@@ -963,7 +1215,5 @@ components:
           type: string
         duration:
           type: string
-          nullable: true
         milliseconds:
           type: integer
-          nullable: true
