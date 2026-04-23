@@ -5,7 +5,7 @@ info:
     Esta API permite gestionar pilotos, escuderías, circuitos y resultados de F1.
     Cubre los datos del campeonato mundial de Fórmula 1 desde 1950 hasta 2020,
     integrando información de la API externa Ergast (formato JSON y XML).
-  version: 1.0.0
+  version: 2.0.0
 
 tags:
   - name: Drivers
