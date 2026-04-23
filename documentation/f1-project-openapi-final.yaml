@@ -2,10 +2,8 @@ openapi: 3.0.3
 info:
   title: API de Fórmula 1 Proyecto
   description: >
-    Esta API permite gestionar pilotos, escuderías, circuitos y resultados de F1.
-    Cubre los datos del campeonato mundial de Fórmula 1 desde 1950 hasta 2020,
-    integrando información de la API externa Ergast (formato JSON y XML).
-  version: 2.0.0
+    API que permite gestionar pilotos, escuderías, circuitos y resultados de F1.
+  version: 1.0.0
 
 tags:
   - name: Drivers
@@ -396,11 +394,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ConstructorInput'
-            example:
-              constructorRef: ferrari
-              name: Ferrari
-              nationality: Italian
-              url: "https://en.wikipedia.org/wiki/Scuderia_Ferrari"
       responses:
         '201':
           description: Constructor created successfully
@@ -777,14 +770,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RaceInput'
-            example:
-              year: 2020
-              round: 1
-              circuitId: 1
-              name: Austrian Grand Prix
-              date: "2020-07-05"
-              time: "13:10:00"
-              url: "https://en.wikipedia.org/wiki/2020_Austrian_Grand_Prix"
       responses:
         '201':
           description: Race created successfully
@@ -1211,9 +1196,7 @@ paths:
         - Lap Times
       summary: Get lap times with filters and pagination
       description: >
-        This collection contains 500k+ documents and is the primary paginated
-        resource for the project. Pagination is mandatory — requests without
-        page/limit will default to page 1, limit 50.
+        Paginated
       parameters:
         - name: raceId
           in: query
@@ -1309,10 +1292,7 @@ paths:
         - Races
       summary: Fetch current season race schedule from Ergast API
       description: >
-        Proxies the Ergast API (ergast.com/api/f1/current.json) and stores the
-        response in the database. Returns cached data if Ergast is unavailable.
-        The Ergast API also supports XML responses at /current.xml — consumed
-        internally to satisfy the XML message requirement.
+        Ergast API with F1 data
       responses:
         '200':
           description: Current season schedule (live or cached)
@@ -1340,8 +1320,7 @@ paths:
         - Drivers
       summary: Fetch driver info from Ergast API by driverRef
       description: >
-        Calls ergast.com/api/f1/drivers/{driverRef}.json. The result is merged
-        with the local driver record and cached in MongoDB.
+        Calls Ergast API
       parameters:
         - name: driverRef
           in: path
