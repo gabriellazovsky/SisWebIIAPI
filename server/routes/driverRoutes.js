@@ -5,8 +5,8 @@ const Driver = require("../models/Driver");
 const Result = require("../models/Result");
 const Standings = require("../models/Standings");
 const Qualifying = require("../models/Qualifying");
-const Times = require("../models/Times");
-const Stops = require("../models/Stops");
+const Times = require("../models/LapTimes");
+const Stops = require("../models/PitStops");
 
 router.get("/", async (req, res) => {
   try {

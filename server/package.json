@@ -1,0 +1,28 @@
+{
+  "name": "sistemas-web-formula-1",
+  "version": "1.0.0",
+  "description": "<a id=\"readme-top\"></a>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabriellazovsky/SisWebIIAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gabriellazovsky/SisWebIIAPI/issues"
+  },
+  "homepage": "https://github.com/gabriellazovsky/SisWebIIAPI#readme",
+  "dependencies": {
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.2.0",
+    "mongoose": "^9.5.0"
+  }
+}
