@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const CircuitSchema = new mongoose.Schema({
   circuitId: { type: Number, required: true, unique: true },
