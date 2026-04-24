@@ -10,4 +10,4 @@ const DriverStandingSchema = new mongoose.Schema({
   wins: Number
 });
 
-module.exports = mongoose.model('DriverStanding', DriverStandingSchema);
+module.exports = mongoose.model('Standings', DriverStandingSchema);
