@@ -4,7 +4,7 @@ const RaceSchema = new mongoose.Schema({
   raceId: { type: Number, required: true, unique: true },
   year: Number,
   round: Number,
-  circuitId: Number, // reference
+  circuitId: Number, 
   name: String,
   date: Date,
   time: String,
