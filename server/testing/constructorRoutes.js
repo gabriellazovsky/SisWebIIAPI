@@ -1,32 +1,63 @@
 const request = require("supertest");
 const app = require("../app");
 
-describe("Constructors API", () => {
+const Constructor = require("../../models/Constructor");
+const ConstructorResult = require("../../models/ConstructorResult");
+const ConstructorStanding = require("../../models/ConstructorStanding");
 
-  it("GET /constructors should return array", async () => {
-    const res = await request(app).get("/constructors");
+jest.mock("../../models/Constructor");
+jest.mock("../../models/ConstructorResult");
+jest.mock("../../models/ConstructorStanding");
 
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-  });
+describe("GET /constructors", () => {
+    it("should return all constructors", async () => {
+      Constructor.find.mockResolvedValue([
+        { constructorId: 1, name: "Mercedes", nationality: "German" }
+      ]);
 
-  it("GET /constructors/:id should respond", async () => {
-    const res = await request(app).get("/constructors/1");
+      const res = await request(app).get("/constructors");
 
-    expect([200, 404]).toContain(res.statusCode);
-  });
+      expect(res.statusCode).toBe(200);
+      expect(res.body[0].name).toBe("Mercedes");
+    });
+});
 
-  it("GET constructor standings", async () => {
-    const res = await request(app).get("/constructors/1/standings");
+describe("GET /constructors/:id", () => {
+    it("should return constructor by id", async () => {
+      Constructor.findById.mockResolvedValue({
+        constructorId: 1,
+        name: "Ferrari"
+      });
 
-    expect([200, 404]).toContain(res.statusCode);
-  });
+      const res = await request(app).get("/constructors/1");
 
-  it("GET standings with season filter", async () => {
-    const res = await request(app)
-      .get("/constructors/1/standings?season=2020");
+      expect(res.statusCode).toBe(200);
+      expect(res.body.name).toBe("Ferrari");
+    });
+});
 
-    expect([200, 404]).toContain(res.statusCode);
-  });
+describe("GET /constructors/:id/results", () => {
+    it("should return constructor results", async () => {
+      ConstructorResult.find.mockResolvedValue([
+        { constructorId: 1, raceId: 10, points: 25 }
+      ]);
 
+      const res = await request(app).get("/constructors/1/results");
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body[0].points).toBe(25);
+    });
+});
+
+describe("GET /constructors/:id/standings", () => {
+    it("should return constructor standings", async () => {
+      ConstructorStanding.find.mockResolvedValue([
+        { constructorId: 1, raceId: 10, position: 1, points: 25 }
+      ]);
+
+      const res = await request(app).get("/constructors/1/standings");
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body[0].position).toBe(1);
+    });
 });

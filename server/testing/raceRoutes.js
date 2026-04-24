@@ -1,32 +1,49 @@
 const request = require("supertest");
 const app = require("../app");
 
-describe("Constructors API", () => {
-    it("should get all constructors", async () => {
-    const res = await request(app).get("/constructors");
+const Race = require("../../models/Race");
+const Result = require("../../models/Result");
+
+jest.mock("../../models/Race");
+jest.mock("../../models/Result");
+
+describe("GET /races", () => {
+    it("should return all races", async () => {
+    Race.find.mockResolvedValue([
+        { raceId: 1, name: "Monaco GP", year: 2020 }
+    ]);
+
+    const res = await request(app).get("/races");
 
     expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-  });
+    expect(res.body[0].name).toBe("Monaco GP");
+    });
+});
 
-  it("should get a constructor by ID", async () => {
-    const res = await request(app).get("/constructors/1");
+describe("GET /races/:id", () => {
+    it("should return race by id", async () => {
+    Race.findById.mockResolvedValue({
+        raceId: 1,
+        name: "Monaco GP",
+        year: 2020
+    });
 
-    expect([200, 404]).toContain(res.statusCode);
-  });
+    const res = await request(app).get("/races/1");
 
-  it("should get constructor standings", async () => {
-    const res = await request(app)
-      .get("/constructors/1/standings");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.name).toBe("Monaco GP");
+    });
+});
 
-    expect([200, 404]).toContain(res.statusCode);
-  });
+describe("GET /races/:id/results", () => {
+    it("should return race results", async () => {
+    Result.find.mockResolvedValue([
+        { raceId: 1, driverId: 44, position: 1, points: 25 }
+    ]);
 
-  it("should filter standings by season", async () => {
-    const res = await request(app)
-      .get("/constructors/1/standings?season=2020");
+    const res = await request(app).get("/races/1/results");
 
-    expect([200, 404]).toContain(res.statusCode);
-  });
-
+    expect(res.statusCode).toBe(200);
+    expect(res.body[0].position).toBe(1);
+    });
 });
