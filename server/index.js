@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
 import "./loadEnvironment.mjs";
-import posts from "./routes/posts.mjs";
-
 import driverRoutes from "./routes/driverRoutes.mjs";
 import constructorRoutes from "./routes/constructorRoutes.mjs"
 import raceRoutes from "./routes/raceRoutes.mjs"
@@ -14,7 +12,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//app.use("/posts", posts);
 app.use("/drivers", driverRoutes);
 app.use("/constructors", constructorRoutes);
 app.use("/races", raceRoutes);
