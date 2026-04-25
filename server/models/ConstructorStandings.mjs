@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ConstructorStandingSchema = new mongoose.Schema({
   constructorStandingsId: { type: Number, required: true, unique: true },
@@ -10,4 +10,4 @@ const ConstructorStandingSchema = new mongoose.Schema({
   wins: Number
 });
 
-module.exports = mongoose.model('ConstructorStanding', ConstructorStandingSchema);
+export default mongoose.models.Result || mongoose.model('Result', ConstructorStandingSchema);

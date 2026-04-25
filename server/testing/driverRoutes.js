@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../app");
 const Driver = require("../../models/Driver");
 
-jest.mock("../models/Driver");
+jest.mock("../models/Driver.mjs");
 
 describe("GET /drivers", () => {
   it("should return all drivers", async () => {

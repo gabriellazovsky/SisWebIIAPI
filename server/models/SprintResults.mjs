@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const SprintResultSchema = new mongoose.Schema({
   resultId: { type: Number, required: true, unique: true },

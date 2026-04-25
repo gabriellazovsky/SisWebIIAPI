@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ConstructorResultSchema = new mongoose.Schema({
   constructorResultsId: { type: Number, required: true, unique: true },

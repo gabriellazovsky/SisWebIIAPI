@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const SeasonSchema = new mongoose.Schema({
   year: { type: Number, required: true, unique: true },
