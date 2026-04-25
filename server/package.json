@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/gabriellazovsky/SisWebIIAPI#readme",
   "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "cors": "^2.8.6",
     "csv-parser": "^3.2.0",
     "dotenv": "^17.4.2",
