@@ -6,29 +6,14 @@ export const getAllDrivers = async (req, res) => {
     if (req.query.nationality) {
       query.nationality = req.query.nationality;
     }
-
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
-    const skip = (page - 1) * limit;
-
-    const [drivers, total] = await Promise.all([
-      db.collection("Drivers").find(query).skip(skip).limit(limit).toArray(),
-      db.collection("Drivers").countDocuments(query),
-    ]);
-
+ 
+    const drivers = await db.collection("Drivers").find(query).toArray();
+ 
     if (drivers.length === 0) {
       return res.status(404).json({ status: 404, message: "No drivers found" });
     }
-
-    res.status(200).json({
-      data: drivers,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-      },
-    });
+ 
+    res.status(200).json(drivers);
   } catch (error) {
     res.status(500).json({ status: 500, message: "Server error", error: error.message });
   }
