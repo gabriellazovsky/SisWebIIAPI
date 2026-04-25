@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import * as circuitController from "../controllers/circuitController.mjs";
+import * as circuitController from "../controllers/circuitController.js";
 
 router.get("/", circuitController.getAllCircuits);
 router.post("/", circuitController.createCircuit);

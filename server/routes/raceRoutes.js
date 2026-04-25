@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import * as racesController from "../controllers/raceController.mjs";
+import * as racesController from "../controllers/raceController.js";
 
 router.get("/", racesController.getAllRaces);
 router.post("/", racesController.createRace);

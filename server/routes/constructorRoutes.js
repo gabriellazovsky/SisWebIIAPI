@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import * as constructorsController from "../controllers/constructorController.mjs";
+import * as constructorsController from "../controllers/constructorController.js";
 
 router.get("/", constructorsController.getAllConstructors);
 router.post("/", constructorsController.createConstructor);
