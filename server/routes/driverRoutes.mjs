@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db/conn.mjs"; // Asegúrate de que esta es tu ruta correcta a la DB
+import db from "../db/conn.mjs"; 
 
 const router = express.Router();
 
@@ -81,8 +81,6 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
-
-// --- RUTAS RELACIONADAS ---
 
 // 6. GET: Resultados de un piloto
 router.get("/:id/results", async (req, res) => {
