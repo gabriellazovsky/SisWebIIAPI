@@ -1,51 +1,130 @@
-const Constructor = require("../models/Constructor");
+import db from "../db/conn.js";
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
 
-exports.getConstructorById = async (req, res) => {
+const ajv = new Ajv();
+addFormats(ajv);
+
+const schema = {
+  type: "object",
+  properties: {
+    constructorId: { type: "integer" },
+    constructorRef: { type: "string" },
+    name: { type: "string" },
+    nationality: { type: "string" },
+    url: { type: "string", format: "uri" }
+  },
+  required: ["constructorRef", "name", "nationality"],
+  additionalProperties: false
+};
+
+export const getAllConstructors = async (req, res) => {
   try {
-    const constructor = await Constructor.findOne({
-      constructorId: Number(req.params.constructorId)
-    });
+    const query = {};
 
-    if (!constructor) {
-      return res.status(404).json({ message: "Constructor not found" });
+    if (req.query.nationality) query.nationality = req.query.nationality;
+    if (req.query.constructorRef) query.constructorRef = req.query.constructorRef;
+
+    if (req.query.name) {
+      query.name = { $regex: req.query.name, $options: "i" };
     }
 
-    res.json(constructor);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    const data = await db.collection("Constructors").find(query).toArray();
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
 
-exports.updateConstructor = async (req, res) => {
+export const createConstructor = async (req, res) => {
   try {
-    const updatedConstructor = await Constructor.findOneAndUpdate(
-      { constructorId: Number(req.params.constructorId) },
-      req.body,
-      { new: true, runValidators: true }
+    if (!ajv.validate(schema, req.body)) {
+      return res.status(400).json({ errors: ajv.errors });
+    }
+
+    const result = await db.collection("Constructors").insertOne(req.body);
+    res.status(201).json({ id: result.insertedId });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+export const getConstructorById = async (req, res) => {
+  try {
+    const id = parseInt(req.params.constructorId);
+
+    const data = await db.collection("Constructors").findOne({
+      constructorId: id
+    });
+
+    if (!data) return res.status(404).json({ message: "Not found" });
+
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+export const updateConstructor = async (req, res) => {
+  try {
+    const id = parseInt(req.params.constructorId);
+
+    const result = await db.collection("Constructors").findOneAndUpdate(
+      { constructorId: id },
+      { $set: req.body },
+      { returnDocument: "after" }
     );
 
-    if (!updatedConstructor) {
-      return res.status(404).json({ message: "Constructor not found" });
-    }
+    if (!result.value) return res.status(404).json({ message: "Not found" });
 
-    res.json(updatedConstructor);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.json(result.value);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
 
-exports.deleteConstructor = async (req, res) => {
+export const deleteConstructor = async (req, res) => {
   try {
-    const deletedConstructor = await Constructor.findOneAndDelete({
-      constructorId: Number(req.params.constructorId)
+    const id = parseInt(req.params.constructorId);
+
+    const result = await db.collection("Constructors").deleteOne({
+      constructorId: id
     });
 
-    if (!deletedConstructor) {
-      return res.status(404).json({ message: "Constructor not found" });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Not found" });
     }
 
-    res.json({ message: "Constructor deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(204).send();
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+export const getConstructorResults = async (req, res) => {
+  try {
+    const id = parseInt(req.params.constructorId);
+
+    const data = await db.collection("ConstructorResults").find({
+      constructorId: id
+    }).toArray();
+
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+export const getConstructorStandings = async (req, res) => {
+  try {
+    const id = parseInt(req.params.constructorId);
+
+    const data = await db.collection("ConstructorStandings").find({
+      constructorId: id
+    }).toArray();
+
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
