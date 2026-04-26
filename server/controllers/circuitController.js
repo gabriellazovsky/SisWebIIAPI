@@ -1,45 +1,72 @@
-import Circuit from "../models/Circuit.js";
-import Race from "../models/Race.js";
+import db from "../db/conn.js";
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
+
+const ajv = new Ajv();
+addFormats(ajv);
+
+const circuitSchema = {
+  type: "object",
+  properties: {
+    circuitId: { type: "integer" },
+    circuitRef: { type: "string" },
+    name: { type: "string" },
+    location: { type: "string" },
+    country: { type: "string" },
+    lat: { type: "number" },
+    lng: { type: "number" },
+    alt: { type: ["integer", "null"] },
+    url: { type: "string", format: "uri" }
+  },
+  required: ["circuitRef", "name", "location", "country", "lat", "lng"],
+  additionalProperties: false
+};
+
+const updateSchema = { ...circuitSchema, required: [] };
 
 export const getAllCircuits = async (req, res) => {
   try {
-    const { circuitRef, name, location, country, page = 1, limit = 20 } = req.query;
+    const query = {};
 
-    const filter = {};
+    if (req.query.country) query.country = req.query.country;
+    if (req.query.location) query.location = req.query.location;
+    if (req.query.circuitRef) query.circuitRef = req.query.circuitRef;
 
-    if (circuitRef) filter.circuitRef = circuitRef;
-    if (location) filter.location = location;
-    if (country) filter.country = country;
-
-    if (name) {
-      filter.name = { $regex: name, $options: "i" };
+    if (req.query.name) {
+      query.name = { $regex: req.query.name, $options: "i" };
     }
 
-    const circuits = await Circuit.find(filter)
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+    const circuits = await db.collection("Circuits").find(query).toArray();
 
-    res.json(circuits);
+    if (circuits.length === 0) {
+      return res.status(404).json({ status: 404, message: "No circuits found" });
+    }
+
+    res.status(200).json(circuits);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ status: 500, error: error.message });
   }
 };
 
 export const createCircuit = async (req, res) => {
   try {
-    const newCircuit = new Circuit(req.body);
-    const savedCircuit = await newCircuit.save();
+    if (!ajv.validate(circuitSchema, req.body)) {
+      return res.status(400).json({ errors: ajv.errors });
+    }
 
-    res.status(201).json(savedCircuit);
+    const result = await db.collection("Circuits").insertOne(req.body);
+    res.status(201).json({ id: result.insertedId });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ error: error.message });
   }
 };
 
 export const getCircuitById = async (req, res) => {
   try {
-    const circuit = await Circuit.findOne({
-      circuitId: Number(req.params.circuitId)
+    const id = parseInt(req.params.circuitId);
+
+    const circuit = await db.collection("Circuits").findOne({
+      circuitId: id
     });
 
     if (!circuit) {
@@ -48,56 +75,58 @@ export const getCircuitById = async (req, res) => {
 
     res.json(circuit);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ error: error.message });
   }
 };
 
 export const updateCircuit = async (req, res) => {
   try {
-    const updatedCircuit = await Circuit.findOneAndUpdate(
-      { circuitId: Number(req.params.circuitId) },
-      req.body,
-      { new: true, runValidators: true }
+    if (!ajv.validate(updateSchema, req.body)) {
+      return res.status(400).json({ errors: ajv.errors });
+    }
+
+    const id = parseInt(req.params.circuitId);
+
+    const result = await db.collection("Circuits").findOneAndUpdate(
+      { circuitId: id },
+      { $set: req.body },
+      { returnDocument: "after" }
     );
 
-    if (!updatedCircuit) {
+    if (!result.value) {
       return res.status(404).json({ message: "Circuit not found" });
     }
 
-    res.json(updatedCircuit);
+    res.json(result.value);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ error: error.message });
   }
 };
 
 export const deleteCircuit = async (req, res) => {
   try {
-    const deletedCircuit = await Circuit.findOneAndDelete({
-      circuitId: Number(req.params.circuitId)
-    });
+    const id = parseInt(req.params.circuitId);
 
-    if (!deletedCircuit) {
+    const result = await db.collection("Circuits").deleteOne({ circuitId: id });
+
+    if (result.deletedCount === 0) {
       return res.status(404).json({ message: "Circuit not found" });
     }
 
-    res.json({ message: "Circuit deleted successfully" });
+    res.status(204).send();
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ error: error.message });
   }
 };
 
 export const getCircuitRaces = async (req, res) => {
   try {
-    const races = await Race.find({
-      circuitId: Number(req.params.circuitId)
-    });
+    const id = parseInt(req.params.circuitId);
 
-    if (races.length === 0) {
-      return res.status(404).json({ message: "No races found for this circuit" });
-    }
+    const races = await db.collection("Races").find({ circuitId: id }).toArray();
 
     res.json(races);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ error: error.message });
   }
 };
