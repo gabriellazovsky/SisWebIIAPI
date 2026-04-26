@@ -32,3 +32,19 @@ describe("GET /races/:id/results", () => {
     expect(res.status).toBe(200);
   });
 });
+
+describe("GET /races/:raceId/qualifying", () => {
+  it("returns 200 with qualifying results for a race", async () => {
+    const res = await request(app).get("/races/18/qualifying");
+
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBeGreaterThan(0);
+  });
+
+  it("returns 404 when no qualifying results exist", async () => {
+    const res = await request(app).get("/races/999999/qualifying");
+
+    expect(res.status).toBe(404);
+  });
+});

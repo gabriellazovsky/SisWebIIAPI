@@ -14,6 +14,10 @@ import {
   getRaceResults,
 } from "../../controllers/raceController.js";
 
+import { 
+    getQualifyingByRace 
+} from "../../controllers/qualifyingController.js";
+
 function mockReq(overrides = {}) {
   return { query: {}, params: {}, body: {}, ...overrides };
 }
@@ -98,5 +102,60 @@ describe("getRaceById", () => {
     await getRaceById(mockReq({ params: { raceId: "999" } }), res);
 
     expect(res.status).toHaveBeenCalledWith(404);
+  });
+});
+
+describe("getQualifyingByRace", () => {
+  let req, res;
+
+  beforeEach(() => {
+    req = {
+      params: { raceId: "18" }
+    };
+
+    res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn()
+    };
+  });
+
+  it("returns 200 with qualifying results", async () => {
+    const mockData = [
+      { qualifyId: 1, raceId: 18, driverId: 1 },
+      { qualifyId: 2, raceId: 18, driverId: 2 }
+    ];
+
+    db.collection.mockReturnValue({
+      find: () => ({
+        toArray: async () => mockData
+      })
+    });
+
+    await getQualifyingByRace(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData);
+  });
+
+  it("returns 404 when no results found", async () => {
+    db.collection.mockReturnValue({
+      find: () => ({
+        toArray: async () => []
+      })
+    });
+
+    await getQualifyingByRace(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+  });
+
+  it("returns 500 on error", async () => {
+    db.collection.mockImplementation(() => {
+      throw new Error("DB error");
+    });
+
+    await getQualifyingByRace(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(500);
   });
 });
