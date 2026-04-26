@@ -1,51 +1,88 @@
-const Race = require("../models/Race");
+import db from "../db/conn.js";
 
-exports.getRaceById = async (req, res) => {
+export const getAllRaces = async (req, res) => {
   try {
-    const race = await Race.findOne({
-      raceId: Number(req.params.raceId)
-    });
+    const query = {};
 
-    if (!race) {
-      return res.status(404).json({ message: "Race not found" });
-    }
+    if (req.query.season) query.year = parseInt(req.query.season);
+    if (req.query.round) query.round = parseInt(req.query.round);
+    if (req.query.circuitId) query.circuitId = parseInt(req.query.circuitId);
 
-    res.json(race);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    const data = await db.collection("Races").find(query).toArray();
+
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
 
-exports.updateRace = async (req, res) => {
+export const createRace = async (req, res) => {
   try {
-    const updatedRace = await Race.findOneAndUpdate(
-      { raceId: Number(req.params.raceId) },
-      req.body,
-      { new: true, runValidators: true }
+    const result = await db.collection("Races").insertOne(req.body);
+    res.status(201).json({ id: result.insertedId });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+export const getRaceById = async (req, res) => {
+  try {
+    const id = parseInt(req.params.raceId);
+
+    const data = await db.collection("Races").findOne({ raceId: id });
+
+    if (!data) return res.status(404).json({ message: "Not found" });
+
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+export const updateRace = async (req, res) => {
+  try {
+    const id = parseInt(req.params.raceId);
+
+    const result = await db.collection("Races").findOneAndUpdate(
+      { raceId: id },
+      { $set: req.body },
+      { returnDocument: "after" }
     );
 
-    if (!updatedRace) {
-      return res.status(404).json({ message: "Race not found" });
-    }
+    if (!result.value) return res.status(404).json({ message: "Not found" });
 
-    res.json(updatedRace);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.json(result.value);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
 
-exports.deleteRace = async (req, res) => {
+export const deleteRace = async (req, res) => {
   try {
-    const deletedRace = await Race.findOneAndDelete({
-      raceId: Number(req.params.raceId)
-    });
+    const id = parseInt(req.params.raceId);
 
-    if (!deletedRace) {
-      return res.status(404).json({ message: "Race not found" });
+    const result = await db.collection("Races").deleteOne({ raceId: id });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Not found" });
     }
 
-    res.json({ message: "Race deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(204).send();
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+export const getRaceResults = async (req, res) => {
+  try {
+    const id = parseInt(req.params.raceId);
+
+    const data = await db.collection("Results").find({
+      raceId: id
+    }).toArray();
+
+    res.json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 };
