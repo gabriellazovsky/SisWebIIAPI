@@ -10,11 +10,11 @@ import {
 
 const router = express.Router();
 
-router.get("/", racesController.getAllRaces);
-router.post("/", racesController.createRace);
-router.get("/:raceId", racesController.getRaceById);
-router.put("/:raceId", racesController.updateRace);
-router.delete("/:raceId", racesController.deleteRace);
-router.get("/:raceId/results", racesController.getRaceResults);
+router.get("/", getAllRaces);
+router.post("/", createRace);
+router.get("/:raceId", getRaceById);
+router.put("/:raceId", updateRace);
+router.delete("/:raceId", deleteRace);
+router.get("/:raceId/results", getRaceResults);
 
 export default router;

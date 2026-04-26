@@ -11,11 +11,11 @@ import {
 
 const router = express.Router();
 
-router.get("/", circuitController.getAllCircuits);
-router.post("/", circuitController.createCircuit);
-router.get("/:circuitId", circuitController.getCircuitById);
-router.put("/:circuitId", circuitController.updateCircuit);
-router.delete("/:circuitId", circuitController.deleteCircuit);
-router.get("/:circuitId/races", circuitController.getCircuitRaces);
+router.get("/", getAllCircuits);
+router.post("/", createCircuit);
+router.get("/:circuitId", getCircuitById);
+router.put("/:circuitId", updateCircuit);
+router.delete("/:circuitId", deleteCircuit);
+router.get("/:circuitId/races", getCircuitRaces);
 
 export default router;

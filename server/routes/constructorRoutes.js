@@ -11,12 +11,12 @@ import {
 
 const router = express.Router();
 
-router.get("/", constructorsController.getAllConstructors);
-router.post("/", constructorsController.createConstructor);
-router.get("/:constructorId", constructorsController.getConstructorById);
-router.put("/:constructorId", constructorsController.updateConstructor);
-router.delete("/:constructorId", constructorsController.deleteConstructor);
-router.get("/:constructorId/results", constructorsController.getConstructorResults);
-router.get("/:constructorId/standings", constructorsController.getConstructorStandings);
+router.get("/", getAllConstructors);
+router.post("/", createConstructor);
+router.get("/:constructorId", getConstructorById);
+router.put("/:constructorId", updateConstructor);
+router.delete("/:constructorId", deleteConstructor);
+router.get("/:constructorId/results", getConstructorResults);
+router.get("/:constructorId/standings", getConstructorStandings);
 
 export default router;
