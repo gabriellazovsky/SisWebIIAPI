@@ -23,7 +23,13 @@ const seasonUpdateSchema = {
 
 export const getAllSeasons = async (req, res) => {
   try {
-    const seasons = await db.collection("Seasons").find({}).toArray();
+    const query = {};
+
+    if (req.query.year) {
+      query.year = parseInt(req.query.year);
+    }
+
+    const seasons = await db.collection("Seasons").find(query).toArray();
 
     if (seasons.length === 0) {
       return res.status(404).json({ status: 404, message: "No seasons found" });
