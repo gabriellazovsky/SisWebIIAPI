@@ -1290,9 +1290,9 @@ paths:
     get:
       tags:
         - Races
-      summary: Fetch current season race schedule from Ergast API
+      summary: Fetch current season race schedule from OpenF1 API
       description: >
-        Ergast API with F1 data
+        OpenF1 API with F1 data
       responses:
         '200':
           description: Current season schedule (live or cached)
@@ -1306,7 +1306,7 @@ paths:
                     enum:
                       - live
                       - cached
-                    description: Whether data came from Ergast or the local cache
+                    description: Whether data came from  OpenF1 or the local cache
                   races:
                     type: array
                     items:
@@ -1318,9 +1318,9 @@ paths:
     get:
       tags:
         - Drivers
-      summary: Fetch driver info from Ergast API by driverRef
+      summary: Fetch driver info from  OpenF1 API by driverRef
       description: >
-        Calls Ergast API
+        Calls  OpenF1 API
       parameters:
         - name: driverRef
           in: path
@@ -1330,7 +1330,7 @@ paths:
           example: hamilton
       responses:
         '200':
-          description: Driver data from Ergast (or cache)
+          description: Driver data from  OpenF1 (or cache)
           content:
             application/json:
               schema:

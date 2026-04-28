@@ -19,9 +19,11 @@
 
 Este proyecto ha sido desarrollado para la asignatura **Sistemas Web II**. Se trata de una API REST centrada en el **Campeonato Mundial de Fórmula 1**. El sistema gestiona datos de tres recursos relacionados (Pilotos, Constructores y Resultados) e integra datos en tiempo real de proveedores externos.
 
+
+
 ### Tema Escogido
 
-***Formula 1 World Championship (1950 - 2024)***
+***Formula 1 World Championship (1950 - 2026)***
 
   > https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020?select=driver_standings.csv.
 
