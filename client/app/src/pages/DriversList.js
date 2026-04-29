@@ -26,7 +26,7 @@ export default function DriversList() {
     // Fetch para obtener los datos al cargar la página
     useEffect(() => {
         async function getDrivers() {
-            const response = await fetch(`http://localhost:5050/driverRoutes`);
+            const response = await fetch(`http://localhost:5050/drivers`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -43,7 +43,7 @@ export default function DriversList() {
 
     // Función para borrar un piloto conectada a tu DELETE /:id
     async function deleteDriver(id) {
-        await fetch(`http://localhost:5050/driverRoutes/${id}`, {
+        await fetch(`http://localhost:5050/drivers/${id}`, {
             method: "DELETE"
         });
 

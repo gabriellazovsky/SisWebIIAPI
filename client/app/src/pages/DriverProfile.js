@@ -13,22 +13,28 @@ export default function DriverProfile() {
     useEffect(() => {
         async function fetchDriverData() {
             try {
+                const normalizeArray = (payload) => {
+                    if (Array.isArray(payload)) return payload;
+                    if (Array.isArray(payload?.data)) return payload.data;
+                    return [];
+                };
+
                 // 1. Pedimos los datos personales del piloto
-                const driverRes = await fetch(`http://localhost:5050/driverRoutes/${params.id}`);
+                const driverRes = await fetch(`http://localhost:5050/drivers/${params.id}`);
                 const driverData = await driverRes.json();
 
                 // 2. Pedimos sus resultados en carreras
-                const resultsRes = await fetch(`http://localhost:5050/driverRoutes/${params.id}/results`);
+                const resultsRes = await fetch(`http://localhost:5050/drivers/${params.id}/results`);
                 const resultsData = await resultsRes.json();
 
                 // 3. Pedimos sus clasificaciones en el campeonato
-                const standingsRes = await fetch(`http://localhost:5050/driverRoutes/${params.id}/standings`);
+                const standingsRes = await fetch(`http://localhost:5050/drivers/${params.id}/standings`);
                 const standingsData = await standingsRes.json();
 
                 // Guardamos todo en el estado de React
                 setDriver(driverData);
-                setResults(resultsData);
-                setStandings(standingsData);
+                setResults(normalizeArray(resultsData));
+                setStandings(normalizeArray(standingsData));
                 setLoading(false);
 
             } catch (error) {
@@ -75,7 +81,7 @@ export default function DriverProfile() {
                 {/* COLUMNA 1: Clasificaciones (Standings) */}
                 <div className="bg-white rounded-lg p-6 shadow-md border">
                     <h2 className="text-2xl font-bold mb-4 border-b pb-2">🏆 Clasificaciones</h2>
-                    {standings.length === 0 ? (
+                    {!Array.isArray(standings) || standings.length === 0 ? (
                         <p className="text-gray-500">No hay datos de clasificación.</p>
                     ) : (
                         <ul className="space-y-3">
@@ -95,7 +101,7 @@ export default function DriverProfile() {
                 {/* COLUMNA 2: Resultados (Carreras) */}
                 <div className="bg-white rounded-lg p-6 shadow-md border">
                     <h2 className="text-2xl font-bold mb-4 border-b pb-2">🏁 Resultados (Top 10)</h2>
-                    {results.length === 0 ? (
+                    {!Array.isArray(results) || results.length === 0 ? (
                         <p className="text-gray-500">No hay datos de resultados.</p>
                     ) : (
                         <ul className="space-y-3">
