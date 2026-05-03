@@ -6,7 +6,7 @@ import {
   updateCircuit,
   deleteCircuit,
   getCircuitRaces
-} from "../controllers/circuitController.js";
+} from "../controllers/circuitController.mjs";
 
 const router = express.Router();
 

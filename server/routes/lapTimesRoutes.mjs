@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllLapTimes } from "../controllers/lapTimesController.js";
+import { getAllLapTimes } from "../controllers/lapTimesController.mjs";
 
 const router = express.Router();
 

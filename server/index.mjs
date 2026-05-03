@@ -1,16 +1,16 @@
 import express from "express";
 import cors from "cors";
 import "./loadEnvironment.js";
-import driverRoutes from "./routes/driverRoutes.js";
-import constructorRoutes from "./routes/constructorRoutes.js"
-import raceRoutes from "./routes/raceRoutes.js"
-import circuitRoutes from "./routes/circuitRoutes.js"
-import seasonRoutes from "./routes/seasonRoutes.js"
-import qualifyingRoutes from "./routes/qualifyingRoutes.js"
-import resultsRoutes from "./routes/resultsRoutes.js";
-import standingsRoutes from "./routes/standingsRoutes.js";
-import lapTimesRoutes from "./routes/lapTimesRoutes.js";
-import pitStopsRoutes from "./routes/pitStopsRoutes.js";
+import driverRoutes from "./routes/driverRoutes.mjs";
+import constructorRoutes from "./routes/constructorRoutes.mjs"
+import raceRoutes from "./routes/raceRoutes.mjs"
+import circuitRoutes from "./routes/circuitRoutes.mjs"
+import seasonRoutes from "./routes/seasonRoutes.mjs"
+import qualifyingRoutes from "./routes/qualifyingRoutes.mjs"
+import resultsRoutes from "./routes/resultsRoutes.mjs";
+import standingsRoutes from "./routes/standingsRoutes.mjs";
+import lapTimesRoutes from "./routes/lapTimesRoutes.mjs";
+import pitStopsRoutes from "./routes/pitStopsRoutes.mjs";
 
 const PORT = process.env.PORT || 5050;
 const app = express();

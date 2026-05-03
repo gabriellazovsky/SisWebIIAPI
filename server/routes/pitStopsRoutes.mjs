@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllPitStops } from "../controllers/pitStopsController.js";
+import { getAllPitStops } from "../controllers/pitStopsController.mjs";
 
 const router = express.Router();
 

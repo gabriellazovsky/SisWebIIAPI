@@ -10,7 +10,7 @@ import {
   getDriverQualifying,
   getDriverLapTimes,
   getDriverPitStops
-} from "../controllers/driverController.js";
+} from "../controllers/driverController.mjs";
 
 const router = express.Router();
 

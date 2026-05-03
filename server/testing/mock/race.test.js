@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("../../db/conn.js", () => ({
+vi.mock("../../db/conn.mjs", () => ({
   default: { collection: vi.fn() },
 }));
 
-import db from "../../db/conn.js";
+import db from "../../db/conn.mjs";
 import {
   getAllRaces,
   createRace,
@@ -12,11 +12,11 @@ import {
   updateRace,
   deleteRace,
   getRaceResults,
-} from "../../controllers/raceController.js";
+} from "../../controllers/raceController.mjs";
 
 import { 
     getQualifyingByRace 
-} from "../../controllers/qualifyingController.js";
+} from "../../controllers/qualifyingController.mjs";
 
 function mockReq(overrides = {}) {
   return { query: {}, params: {}, body: {}, ...overrides };

@@ -6,11 +6,11 @@ import {
   updateRace,
   deleteRace,
   getRaceResults
-} from "../controllers/raceController.js";
+} from "../controllers/raceController.mjs";
 
 import { 
     getQualifyingByRace 
-} from "../controllers/qualifyingController.js";
+} from "../controllers/qualifyingController.mjs";
 
 
 const router = express.Router();

@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../../index.js";
+import app from "../../index.mjs";
 import { describe, it, expect } from "vitest";
 
 describe("GET /lap-times", () => {

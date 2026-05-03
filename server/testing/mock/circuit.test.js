@@ -1,17 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("../../db/conn", () => ({
+vi.mock("../../db/conn.mjs", () => ({
   default: { collection: vi.fn() },
 }));
 
-import db from "../../db/conn";
+import db from "../../db/conn.mjs";
 import {
   getAllCircuits,
   createCircuit,
   getCircuitById,
   updateCircuit,
   deleteCircuit,
-} from "../../controllers/circuitController";
+} from "../../controllers/circuitController.mjs";
 
 function mockReq(overrides = {}) {
   return { query: {}, params: {}, body: {}, ...overrides };

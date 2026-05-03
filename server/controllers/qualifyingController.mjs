@@ -1,4 +1,4 @@
-import db from "../db/conn.js";
+import db from "../db/conn.mjs";
 
 export const getAllQualifying = async (req, res) => {
   try {

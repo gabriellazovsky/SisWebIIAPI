@@ -1,4 +1,4 @@
-import db from "../db/conn.js";
+import db from "../db/conn.mjs";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 

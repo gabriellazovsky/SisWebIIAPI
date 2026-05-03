@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
-    "test:unit": "vitest testing/mock/driver.test.js"
+    "test:unit": "vitest testing/mock",
+    "test:integration": "vitest testing/integration"
   },
   "repository": {
     "type": "git",

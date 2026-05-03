@@ -5,11 +5,11 @@ import {
   getSeasonByYear,
   updateSeason,
   deleteSeason
-} from "../../controllers/seasonController.js";
+} from "../../controllers/seasonController.mjs";
 
-import db from "../../db/conn.js";
+import db from "../../db/conn.mjs";
 
-vi.mock("../../db/conn.js");
+vi.mock("../../db/conn.mjs");
 
 const mockReq = (data = {}) => ({
   params: data.params || {},
