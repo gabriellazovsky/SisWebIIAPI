@@ -1,4 +1,4 @@
-import db from "../db/conn.js";
+import db from "../db/conn.mjs";
 
 export const getAllQualifying = async (req, res) => {
   try {
@@ -50,5 +50,26 @@ export const getQualifyingById = async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ status: 500, error: error.message });
+  }
+};
+
+export const getQualifyingByRace = async (req, res) => {
+  try {
+    const raceId = parseInt(req.params.raceId);
+
+    const results = await db
+      .collection("Qualifying")
+      .find({ raceId })
+      .toArray();
+
+    if (results.length === 0) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "No qualifying results found" });
+    }
+
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ status: 500, error: error.message });
   }
 };

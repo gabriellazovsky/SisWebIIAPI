@@ -6,7 +6,12 @@ import {
   updateRace,
   deleteRace,
   getRaceResults
-} from "../controllers/raceController.js";
+} from "../controllers/raceController.mjs";
+
+import { 
+    getQualifyingByRace 
+} from "../controllers/qualifyingController.mjs";
+
 
 const router = express.Router();
 
@@ -16,5 +21,6 @@ router.get("/:raceId", getRaceById);
 router.put("/:raceId", updateRace);
 router.delete("/:raceId", deleteRace);
 router.get("/:raceId/results", getRaceResults);
+router.get("/:raceId/qualifying", getQualifyingByRace);
 
 export default router;

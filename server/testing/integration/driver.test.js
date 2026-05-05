@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../../index";
+import app from "../../index.mjs";
 import { describe, it, expect } from "vitest";
 
 describe("GET /drivers", () => {
@@ -29,7 +29,7 @@ describe("GET /drivers", () => {
 
 describe("GET /drivers/:driverId", () => {
   it("returns 200 with driver data for a valid ID", async () => {
-    const res = await request(app).get("/drivers/1");
+    const res = await request(app).get("/drivers/5");
 
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("driverId");

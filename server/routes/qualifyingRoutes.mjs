@@ -2,7 +2,7 @@ import express from "express";
 import {
   getAllQualifying,
   getQualifyingById
-} from "../controllers/qualifyingController.js";
+} from "../controllers/qualifyingController.mjs";
 
 const router = express.Router();
 

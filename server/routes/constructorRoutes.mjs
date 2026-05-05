@@ -7,7 +7,7 @@ import {
   deleteConstructor,
   getConstructorResults,
   getConstructorStandings
-} from "../controllers/constructorController.js";
+} from "../controllers/constructorController.mjs";
 
 const router = express.Router();
 

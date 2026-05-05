@@ -2,7 +2,7 @@ import express from "express";
 import {
   getAllResults,
   getResultById,
-} from "../controllers/resultsController.js";
+} from "../controllers/resultsController.mjs";
 
 const router = express.Router();
 

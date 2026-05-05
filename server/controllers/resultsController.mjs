@@ -1,4 +1,4 @@
-import db from "../db/conn.js";
+import db from "../db/conn.mjs";
 
 const parseInteger = (value) => {
   const parsed = parseInt(value, 10);

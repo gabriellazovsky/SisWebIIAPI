@@ -869,6 +869,32 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+  /races/{raceId}/qualifying:
+    parameters:
+      - name: raceId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Races
+        - Qualifying
+      summary: Get qualifying results for a specific race
+      responses:
+        '200':
+          description: Qualifying results for the race
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QualifyingResult'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
   /seasons:
     get:
       tags:

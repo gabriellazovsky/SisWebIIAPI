@@ -2,7 +2,7 @@ import express from "express";
 import {
   getDriverStandings,
   getConstructorStandings,
-} from "../controllers/standingsController.js";
+} from "../controllers/standingsController.mjs";
 
 const router = express.Router();
 
