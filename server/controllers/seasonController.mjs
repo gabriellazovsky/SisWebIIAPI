@@ -122,3 +122,21 @@ export const deleteSeason = async (req, res) => {
     res.status(500).json({ status: 500, error: error.message });
   }
 };
+
+export const getSeasonRaces = async (req, res) => {
+  try {
+    const year = parseInt(req.params.year);
+    const races = await db.collection("Races")
+      .find({ year })
+      .sort({ round: 1 })
+      .toArray();
+
+    if (races.length === 0) {
+      return res.status(404).json({ status: 404, message: "No races found for this season" });
+    }
+
+    res.status(200).json(races);
+  } catch (error) {
+    res.status(500).json({ status: 500, error: error.message });
+  }
+};
