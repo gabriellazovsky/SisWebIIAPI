@@ -1,4 +1,5 @@
 import db from "../db/conn.mjs";
+import { sendResponse } from "../utils/sendResponse.mjs";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
@@ -42,12 +43,10 @@ export const getAllCircuits = async (req, res) => {
     const circuits = await db.collection("Circuits").find(query).toArray();
 
     if (circuits.length === 0) {
-      return res
-        .status(404)
-        .json({ status: 404, message: "No circuits found" });
+      return sendResponse(req, res, 404, { status: 404, message: "No circuits found" }, "error");
     }
 
-    res.status(200).json(circuits);
+    sendResponse(req, res, 200, circuits, "circuits", "circuit");
   } catch (error) {
     res
       .status(500)
@@ -77,7 +76,7 @@ export const createCircuit = async (req, res) => {
 
     const result = await db.collection("Circuits").insertOne(normalized);
 
-    return res.status(201).json({ id: result.insertedId });
+    return sendResponse(req, res, 201, { id: result.insertedId }, "createdCircuit");
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -92,12 +91,10 @@ export const getCircuitById = async (req, res) => {
     });
 
     if (!circuit) {
-      return res
-        .status(404)
-        .json({ status: 404, message: "Circuit not found" });
+      return sendResponse(req, res, 404, { status: 404, message: "Circuit not found" }, "error");
     }
 
-    res.status(200).json(circuit);
+    sendResponse(req, res, 200, circuit, "circuit");
   } catch (error) {
     res
       .status(500)
@@ -132,7 +129,7 @@ export const updateCircuit = async (req, res) => {
         .json({ status: 404, message: "Circuit not found" });
     }
 
-    res.status(200).json(updatedCircuit);
+    sendResponse(req, res, 200, updatedCircuit, "circuit");
   } catch (error) {
     res
       .status(500)
@@ -171,7 +168,7 @@ export const getCircuitRaces = async (req, res) => {
       .find({ circuitId: id })
       .toArray();
 
-    res.status(200).json(races);
+    sendResponse(req, res, 200, races, "races", "race");
   } catch (error) {
     res
       .status(500)
