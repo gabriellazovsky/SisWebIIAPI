@@ -5,6 +5,7 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
+    "start": "node index.mjs",
     "test": "vitest",
     "test:unit": "vitest testing/mock",
     "test:integration": "vitest testing/integration"

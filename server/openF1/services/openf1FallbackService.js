@@ -1,4 +1,4 @@
-import { getDB } from "../server/db";
+import db from "../../db/conn.mjs";
 
 const saveManyWithUpsert = async (collection, data, uniqueKeyBuilder) => {
   if (!data || data.length === 0) return;
@@ -20,7 +20,6 @@ export const getWithFallback = async ({
   query,
   uniqueKeyBuilder
 }) => {
-  const db = getDB();
   const collection = db.collection(mongoCollection);
 
   try {
