@@ -1,0 +1,13 @@
+[
+  {
+    "driverId": 1001,
+    "driverRef": "example_driver",
+    "number": 99,
+    "code": "EXA",
+    "forename": "Example",
+    "surname": "Driver",
+    "dob": "2000-01-01",
+    "nationality": "Spanish",
+    "url": "https://example.com/example_driver"
+  }
+]

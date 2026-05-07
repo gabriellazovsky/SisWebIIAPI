@@ -8,7 +8,8 @@
     "start": "node index.mjs",
     "test": "vitest",
     "test:unit": "vitest testing/mock",
-    "test:integration": "vitest testing/integration"
+    "test:integration": "vitest testing/integration",
+    "import:json": "node scripts/importJsonData.mjs"
   },
   "repository": {
     "type": "git",
