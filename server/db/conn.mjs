@@ -13,4 +13,17 @@ try {
 
 let db = conn.db("ProjectDatabase");
 
+export async function connectToDatabase() {
+  await client.connect();
+  db = client.db("f1_api");
+  console.log("MongoDB connected");
+}
+
+export function getDB() {
+  if (!db) {
+    throw new Error("Database not initialized");
+  }
+
+  return db;
+}
 export default db;

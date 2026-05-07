@@ -13,6 +13,8 @@ import lapTimesRoutes from "./routes/lapTimesRoutes.mjs";
 import pitStopsRoutes from "./routes/pitStopsRoutes.mjs";
 import openf1Routes from "./openF1/routes/openf1Routes.js";
 import externalRoutes from "./routes/externalRoutes.mjs";
+import f1XmlRoutes from "./f1Xml/routes/f1XmlRoutes.js";
+
 const PORT = process.env.PORT || 5050;
 const app = express();
 
@@ -31,6 +33,8 @@ app.use("/lap-times", lapTimesRoutes);
 app.use("/pit-stops", pitStopsRoutes);
 app.use("/openf1", openf1Routes);
 app.use("/external", externalRoutes);
+app.use("/api/f1-news-xml", f1XmlRoutes);
+
 app.use((err, _req, res, _next) => {
   res.status(500).send("An unexpected error occured.")
 })
