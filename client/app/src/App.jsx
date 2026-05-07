@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar.js";
-import DriversList from "./pages/DriversList.js";
-import CreateDriver from "./pages/CreateDriver.js";
-import DriverProfile from "./pages/DriverProfile.js";
-import EditDriver from "./pages/EditDriver.js";
+import Navbar from "./components/Navbar.jsx";
+import DriversList from "./pages/DriversList.jsx";
+import CreateDriver from "./pages/CreateDriver.jsx";
+import DriverProfile from "./pages/DriverProfile.jsx";
+import EditDriver from "./pages/EditDriver.jsx";
 
 const App = () => {
     return (
