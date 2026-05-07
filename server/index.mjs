@@ -38,5 +38,8 @@ app.use((err, _req, res, _next) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port: 5050`);
 });
+app.get("/", (req, res) => {
+  res.json({ message: "F1 API is running" });
+});
 
 export default app;

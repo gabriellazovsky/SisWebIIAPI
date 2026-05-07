@@ -5,7 +5,7 @@ import {
 } from "../services/openf1Service.js";
 
 import { getWithFallback } from "../services/openf1FallbackService.js";
-
+import { getSessionsFromOpenF1 } from "../services/openf1Service.js";
 export const getWeather = async (req, res, next) => {
   try {
     const { session_key, driver_number } = req.query;
@@ -29,6 +29,19 @@ export const getWeather = async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     console.error("Error in getWeather controller:", error);
+    next(error);
+  }
+};
+export const getSessions = async (req, res, next) => {
+  try {
+    const data = await getSessionsFromOpenF1(req.query);
+
+    res.status(200).json({
+      source: "openf1",
+      count: data.length,
+      data
+    });
+  } catch (error) {
     next(error);
   }
 };

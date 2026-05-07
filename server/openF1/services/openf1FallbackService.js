@@ -35,6 +35,7 @@ export const getWithFallback = async ({
       };
     }
   } catch (error) {
+    console.error(error.response?.data || error.message);
     console.warn(`OpenF1 failed for ${mongoCollection}. Using DB fallback.`);
   }
 

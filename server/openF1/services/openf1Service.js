@@ -19,3 +19,10 @@ export const getTeamRadioFromOpenF1 = async (query) => {
   const response = await openf1Client.get("/team_radio", { params: query });
   return response.data;
 };
+export const getSessionsFromOpenF1 = async (query) => {
+  const response = await openf1Client.get("/sessions", {
+    params: query
+  });
+
+  return response.data;
+};
