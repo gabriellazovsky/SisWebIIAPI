@@ -9,13 +9,15 @@ import {
   getDriverStandings,
   getDriverQualifying,
   getDriverLapTimes,
-  getDriverPitStops
+  getDriverPitStops,
+  getDriversXML
 } from "../controllers/driverController.mjs";
 
 const router = express.Router();
 
 router.get("/", getAllDrivers);
 router.post("/", createDriver);
+router.get("/xml", getDriversXML);
 router.get("/:driverId", getDriverById);
 router.put("/:driverId", updateDriver);
 router.delete("/:driverId", deleteDriver);

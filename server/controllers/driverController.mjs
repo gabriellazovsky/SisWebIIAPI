@@ -1,5 +1,6 @@
 import db from "../db/conn.mjs";
-
+import {create} from "xmlbuilder2";
+import {getDB} from "../db/conn.mjs";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
@@ -298,3 +299,27 @@ function parseDriverId(rawId) {
     idString: rawId,
   };
 }
+export const getDriversXML = async (req, res) => {
+  const db = getDB();
+
+  const drivers = await db
+    .collection("Drivers")
+    .find()
+    .limit(5)
+    .toArray();
+
+  const xml = create({
+    drivers: {
+      driver: drivers.map((d) => ({
+        driverId: d.driverId,
+        forename: d.forename,
+        surname: d.surname,
+        nationality: d.nationality
+      }))
+    }
+  });
+
+  res.set("Content-Type", "application/xml");
+
+  res.send(xml.end({ prettyPrint: true }));
+};

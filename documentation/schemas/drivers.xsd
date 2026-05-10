@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="drivers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="driver" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="driverId" type="xs:int"/>
+              <xs:element name="forename" type="xs:string"/>
+              <xs:element name="surname" type="xs:string"/>
+              <xs:element name="nationality" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
