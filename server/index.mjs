@@ -33,7 +33,7 @@ app.use("/lap-times", lapTimesRoutes);
 app.use("/pit-stops", pitStopsRoutes);
 app.use("/openf1", openf1Routes);
 app.use("/external", externalRoutes);
-app.use("/api/f1-news-xml", f1XmlRoutes);
+app.use("/f1-news-xml", f1XmlRoutes);
 
 app.use((err, _req, res, _next) => {
   res.status(500).send("An unexpected error occured.")
