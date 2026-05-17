@@ -1,6 +1,5 @@
 import db from "../db/conn.mjs";
-import {create} from "xmlbuilder2";
-import {getDB} from "../db/conn.mjs";
+import { sendResponse } from "../utils/sendResponse.mjs";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
@@ -39,10 +38,10 @@ export const getAllDrivers = async (req, res) => {
     const drivers = await db.collection("Drivers").find(query).toArray();
 
     if (drivers.length === 0) {
-      return res.status(404).json({ status: 404, message: "No drivers found" });
+      return sendResponse(req, res, 404, { status: 404, message: "No drivers found" }, "error");
     }
 
-    res.status(200).json(drivers);
+    sendResponse(req, res, 200, drivers, "drivers", "driver");
   } catch (error) {
     res
       .status(500)
@@ -79,10 +78,10 @@ export const getDriverById = async (req, res) => {
     });
 
     if (!driver) {
-      return res.status(404).json({ status: 404, message: "Driver not found" });
+      return sendResponse(req, res, 404, { status: 404, message: "Driver not found" }, "error");
     }
 
-    res.status(200).json(driver);
+    sendResponse(req, res, 200, driver, "driver");
   } catch (error) {
     res
       .status(500)
@@ -299,27 +298,3 @@ function parseDriverId(rawId) {
     idString: rawId,
   };
 }
-export const getDriversXML = async (req, res) => {
-  const db = getDB();
-
-  const drivers = await db
-    .collection("Drivers")
-    .find()
-    .limit(5)
-    .toArray();
-
-  const xml = create({
-    drivers: {
-      driver: drivers.map((d) => ({
-        driverId: d.driverId,
-        forename: d.forename,
-        surname: d.surname,
-        nationality: d.nationality
-      }))
-    }
-  });
-
-  res.set("Content-Type", "application/xml");
-
-  res.send(xml.end({ prettyPrint: true }));
-};

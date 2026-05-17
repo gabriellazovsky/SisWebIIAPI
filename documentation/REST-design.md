@@ -10,19 +10,25 @@ http://localhost:5050
 
 ## Content Negotiation
 
-The `/circuits` endpoints support both JSON and XML via the `Accept` header.
+The `/circuits` and `/drivers` endpoints support both JSON and XML via the `Accept` header.
 All other endpoints respond in JSON.
 
 | Accept Header | Response Format |
 |---|---|
 | `application/json` (default) | JSON |
-| `application/xml` | XML (circuits only) |
+| `application/xml` | XML (circuits and drivers only) |
 
 XML schema: `documentation/schemas/circuit.xsd`
 
-**Example:**
+**Examples:**
 ```
 GET /circuits
+Accept: application/xml
+
+GET /drivers
+Accept: application/xml
+
+GET /drivers/1
 Accept: application/xml
 ```
 
@@ -340,3 +346,49 @@ If the external XML feed is unavailable:
   "data": { "..." : "..." }
 }
 ```
+
+---
+
+### OpenF1 Live Data Endpoints
+
+Real-time data from the OpenF1 API, cached in MongoDB as fallback.
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/openf1/weather` | Weather data for a session |
+| GET | `/openf1/race-control` | Race control messages for a session |
+| GET | `/openf1/team-radio` | Team radio communications for a session |
+| GET | `/openf1/sessions` | All available sessions from OpenF1 |
+
+**Required query parameters for `/openf1/weather`, `/openf1/race-control`, `/openf1/team-radio`:**
+- `session_key` — OpenF1 session identifier (e.g. `?session_key=9158`)
+
+**Optional query parameters:**
+- `driver_number` — filter by driver number (e.g. `?driver_number=44`)
+
+**Example:**
+```
+GET /openf1/weather?session_key=9158
+GET /openf1/team-radio?session_key=9158&driver_number=44
+```
+
+> If the OpenF1 API is unavailable, the response is served from the MongoDB cache.
+
+---
+
+### Webhooks
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/webhooks/openf1` | Receive and store OpenF1 event notifications |
+
+**Example request body (POST /webhooks/openf1):**
+```json
+{
+  "event": "race-control",
+  "session_key": 9158,
+  "data": { "..." : "..." }
+}
+```
+
+> Received events are stored in MongoDB for later retrieval via the `/openf1/*` endpoints.
