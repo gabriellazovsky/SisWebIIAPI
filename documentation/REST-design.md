@@ -315,9 +315,9 @@ Endpoints that return large collections include a `pagination` object:
 |---|---|---|
 | GET | `/external/current-season` | Current season schedule from Ergast API (JSON, cached fallback) |
 | GET | `/external/driver/:driverRef` | Driver info from Ergast API (JSON, cached fallback) |
-| GET | `/f1xml` | Latest F1 news from Formula 1 RSS feed (XML consumed, stored in DB, cached fallback) |
+| GET | `/f1-news-xml` | Latest F1 news from Formula 1 RSS feed (XML consumed, stored in DB, cached fallback) |
 
-**Example response for GET /f1xml:**
+**Example response for GET /f1-news-xml:**
 ```json
 {
   "source": "external_xml_api",
