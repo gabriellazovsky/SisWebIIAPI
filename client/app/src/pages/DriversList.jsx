@@ -252,7 +252,7 @@ function DriverProfile({ driver, onClose }) {
           <div className="profile-name">{driver.forename} {driver.surname}</div>
           <div className="profile-meta">
             {driver.code && <span className="badge badge-red">{driver.code}</span>}
-            {driver.number && <span className="badge badge-grey">#{driver.number}</span>}
+            {driver.number && <span className="badge badge-grey">Driver Number: {driver.number}</span>}
             <span className="badge badge-grey">{driver.nationality}</span>
             {driver.dob && <span className="mono-m">{String(driver.dob).slice(0,10)}</span>}
             {driver.url && <a href={driver.url} target="_blank" rel="noreferrer" className="btn btn-teal" style={{padding:"3px 10px",fontSize:11}}>Wiki ↗</a>}
@@ -329,7 +329,7 @@ export default function DriversList() {
         <div>
           <div className="page-eyebrow">F1 Database / Drivers</div>
           <div className="page-title">Drivers</div>
-          <div className="page-sub">All Formula 1 drivers — 1950 to 2020. Click a row to view profile.</div>
+          <div className="page-sub">All Formula 1 drivers — 1950 to 2025. Click a row to view profile.</div>
         </div>
         <Link to="/create" className="btn btn-primary">+ New Driver</Link>
       </div>
@@ -360,7 +360,7 @@ export default function DriversList() {
          !slice.length ? <div className="empty">No drivers match your filters</div> : (
           <table className="dtable">
             <thead><tr>
-              <th>#</th><th>Driver</th><th>Code</th><th>Nationality</th><th>Born</th><th>Actions</th>
+              <th>Driver Number</th><th>Driver</th><th>Code</th><th>Nationality</th><th>Born</th><th>Actions</th>
             </tr></thead>
             <tbody>
               {slice.map(d => (
