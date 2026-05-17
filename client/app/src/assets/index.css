@@ -908,3 +908,295 @@ body,
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+.standings-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.standings-season-select {
+  width: 120px;
+}
+
+.champions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.champion-card {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.champion-card.driver {
+  border: 2px solid var(--red);
+}
+
+.champion-card.constructor {
+  border: 2px solid var(--teal);
+}
+
+.champion-icon {
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fd);
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.champion-icon.driver {
+  background: var(--red);
+}
+
+.champion-icon.constructor {
+  background: var(--teal);
+}
+
+.champion-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.champion-label.driver {
+  color: var(--red);
+}
+
+.champion-label.constructor {
+  color: var(--teal);
+}
+
+.champion-name {
+  font-family: var(--fd);
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.champion-stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.champion-wins {
+  color: var(--teal);
+  font-size: 13px;
+}
+
+.standings-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.driver-row-first {
+  background: rgba(225, 6, 0, 0.04);
+}
+
+.constructor-row-first {
+  background: rgba(0, 210, 190, 0.04);
+}
+
+.constructor-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fd);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.driver-avatar-small {
+  width: 28px;
+  height: 28px;
+  font-size: 10px;
+}
+
+.entity-name {
+  font-weight: 600;
+}
+
+.empty-standings {
+  padding: 48px 24px;
+}
+
+.standings-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.standings-season-select {
+  width: 120px;
+}
+
+.champions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.champion-card {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.champion-card.driver {
+  border: 2px solid var(--red);
+}
+
+.champion-card.constructor {
+  border: 2px solid var(--teal);
+}
+
+.champion-icon {
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fd);
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.champion-icon.driver {
+  background: var(--red);
+}
+
+.champion-icon.constructor {
+  background: var(--teal);
+}
+
+.champion-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.champion-label.driver {
+  color: var(--red);
+}
+
+.champion-label.constructor {
+  color: var(--teal);
+}
+
+.champion-name {
+  font-family: var(--fd);
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.champion-stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.champion-wins {
+  color: var(--teal);
+  font-size: 13px;
+}
+
+.standings-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.driver-row-first {
+  background: rgba(225, 6, 0, 0.04);
+}
+
+.constructor-row-first {
+  background: rgba(0, 210, 190, 0.04);
+}
+
+.constructor-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fd);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.driver-avatar-small {
+  width: 28px;
+  height: 28px;
+  font-size: 10px;
+}
+
+.entity-name {
+  font-weight: 600;
+}
+
+.empty-standings {
+  padding: 48px 24px;
+}
+
+.results-input-season {
+  width: 100px;
+}
+
+.results-input-race {
+  width: 90px;
+}
+
+.results-input-driver {
+  width: 90px;
+}
+
+.results-input-constructor {
+  width: 110px;
+}
+
+.results-input-position {
+  width: 80px;
+}
+
+.results-grid-muted {
+  color: var(--muted2);
+}
+
+.results-empty {
+  padding: 48px 24px;
+}
