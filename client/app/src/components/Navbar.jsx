@@ -2,8 +2,10 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const LINKS = [
-  { to: "/",         label: "Drivers",  end: true },
-  { to: "/circuits", label: "Circuits" },
+  { to: "/",             label: "Drivers",      end: true },
+  { to: "/constructors", label: "Constructors"             },
+  { to: "/circuits",     label: "Circuits"                 },
+  { to: "/results",      label: "Results"                  },
 ];
 
 export default function Navbar() {
