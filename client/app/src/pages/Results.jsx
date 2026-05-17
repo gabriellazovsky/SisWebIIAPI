@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { API } from "../App.jsx";
 
 function Spinner() {
@@ -64,12 +64,53 @@ function Pager({ page, pages, total, onPage }) {
   );
 }
 
+async function fetchDriverMap() {
+  try {
+    const res = await fetch(`${API}/drivers`);
+    const list = await res.json();
+    const map = {};
+    (Array.isArray(list) ? list : []).forEach((d) => {
+      map[d.driverId] = `${d.forename} ${d.surname}`;
+    });
+    return map;
+  } catch { return {}; }
+}
+
+async function fetchRaceMapFull() {
+  try {
+    const res = await fetch(`${API}/races?limit=1100`);
+    const list = await res.json();
+    const map = {};
+    (Array.isArray(list) ? list : []).forEach((r) => {
+      map[r.raceId] = `${r.name} (${r.year})`;
+    });
+    return map;
+  } catch { return {}; }
+}
+
+async function fetchConstructorMap() {
+  try {
+    const res = await fetch(`${API}/constructors`);
+    const list = await res.json();
+    const map = {};
+    (Array.isArray(list) ? list : []).forEach((c) => {
+      map[c.constructorId] = c.name;
+    });
+    return map;
+  } catch { return {}; }
+}
+
 export default function ResultsPage() {
   const [data, setData] = useState([]);
   const [pag, setPag] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
+
+  const [driverMap, setDriverMap] = useState({});
+  const [raceMap, setRaceMap] = useState({});
+  const [constructorMap, setConstructorMap] = useState({});
+  const mapsLoaded = useRef(false);
 
   const [season, setSeason] = useState("");
   const [raceId, setRaceId] = useState("");
@@ -100,6 +141,18 @@ export default function ResultsPage() {
         setData(json.data || []);
         setPag(json.pagination || {});
         setPage(p);
+
+        if (!mapsLoaded.current) {
+          mapsLoaded.current = true;
+          const [dm, rm, cm] = await Promise.all([
+            fetchDriverMap(),
+            fetchRaceMapFull(),
+            fetchConstructorMap(),
+          ]);
+          setDriverMap(dm);
+          setRaceMap(rm);
+          setConstructorMap(cm);
+        }
       } catch (e) {
         setError(e.message);
       } finally {
@@ -316,21 +369,23 @@ export default function ResultsPage() {
                       </span>
                     </td>
 
+                    <td style={{ fontSize: 12 }}>
+                      {raceMap[r.raceId] || (
+                        <span className="badge badge-grey">
+                          Race {r.raceId}
+                        </span>
+                      )}
+                    </td>
+
                     <td>
-                      <span className="badge badge-grey">
-                        Race {r.raceId}
+                      <span className="mono-m">
+                        {driverMap[r.driverId] || `Driver ${r.driverId}`}
                       </span>
                     </td>
 
                     <td>
                       <span className="mono-m">
-                        {r.driverId}
-                      </span>
-                    </td>
-
-                    <td>
-                      <span className="mono-m">
-                        {r.constructorId}
+                        {constructorMap[r.constructorId] || `Constructor ${r.constructorId}`}
                       </span>
                     </td>
 
