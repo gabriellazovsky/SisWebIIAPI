@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar.jsx";
 import DriversList from "./pages/DriversList.jsx";
 import CreateDriver from "./pages/CreateDriver.jsx";
 import EditDriver from "./pages/EditDriver.jsx";
+import Circuits from "./pages/Circuits.jsx";
 
 export const COLORS = ['#E10600','#00D2BE','#0067FF','#FF8000','#DC0000','#006F62','#B6BABD','#FF2800','#2B4562','#F596C8'];
 export const tc  = (id) => COLORS[(id || 0) % COLORS.length];
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/" element={<DriversList />} />
             <Route path="/create" element={<CreateDriver />} />
             <Route path="/edit/:id" element={<EditDriver />} />
+            <Route path="/circuits" element={<Circuits />} />
           </Routes>
         </div>
       </BrowserRouter>

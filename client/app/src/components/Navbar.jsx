@@ -1,6 +1,11 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
+const LINKS = [
+  { to: "/",         label: "Drivers",  end: true },
+  { to: "/circuits", label: "Circuits" },
+];
+
 export default function Navbar() {
   const nav = useNavigate();
   return (
@@ -10,8 +15,12 @@ export default function Navbar() {
         <span className="logo-db">Database</span>
       </div>
       <nav className="nav-links">
-        <NavLink to="/" end className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>Drivers</NavLink>
-        <NavLink to="/create" className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>+ New Driver</NavLink>
+        {LINKS.map(l => (
+          <NavLink key={l.to} to={l.to} end={l.end}
+            className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+            {l.label}
+          </NavLink>
+        ))}
       </nav>
       <div className="nav-status">
         <div className="status-dot" />
