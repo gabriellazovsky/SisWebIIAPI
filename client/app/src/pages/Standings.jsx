@@ -20,8 +20,8 @@ export default function StandingsPage() {
     setLoading(true); setError(null);
     try {
       const [dRes, cRes, driversRes, constrsRes] = await Promise.all([
-        fetch(`${API}/standings/drivers?season=${season}&limit=30`),
-        fetch(`${API}/standings/constructors?season=${season}&limit=15`),
+        fetch(`${API}/standings/drivers?season=${season}&limit=100`),
+        fetch(`${API}/standings/constructors?season=${season}&limit=100`),
         fetch(`${API}/drivers`),
         fetch(`${API}/constructors`),
       ]);
@@ -30,8 +30,17 @@ export default function StandingsPage() {
       const dList  = dJson.data  || [];
       const cList  = cJson.data  || [];
 
-      setDrivers(dList.sort((a,b) => a.position - b.position));
-      setConstructors(cList.sort((a,b) => a.position - b.position));
+      const dedupeByLatestRace = (list, idField) => {
+        const map = {};
+        list.forEach(entry => {
+          const id = entry[idField];
+          if (!map[id] || entry.raceId > map[id].raceId) map[id] = entry;
+        });
+        return Object.values(map).sort((a, b) => a.position - b.position);
+      };
+
+      setDrivers(dedupeByLatestRace(dList, "driverId"));
+      setConstructors(dedupeByLatestRace(cList, "constructorId"));
 
       const driversData = await driversRes.json();
       const allDrivers = Array.isArray(driversData) ? driversData : [];
