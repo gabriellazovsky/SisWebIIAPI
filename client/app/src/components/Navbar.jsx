@@ -1,17 +1,22 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-    return (
-        <div>
-            <nav className="flex justify-between items-center mb-6 bg-gray-800 p-4 text-white">
-                <NavLink to="/">
-                    <h1 className="text-xl font-bold">F1 Database</h1>
-                </NavLink>
-                <NavLink to="/create" className="bg-blue-500 px-4 py-2 rounded">
-                    Crear Piloto
-                </NavLink>
-            </nav>
-        </div>
-    );
+  const nav = useNavigate();
+  return (
+    <header className="topbar">
+      <div className="logo" onClick={() => nav("/")}>
+        <span className="logo-f1">F1</span>
+        <span className="logo-db">Database</span>
+      </div>
+      <nav className="nav-links">
+        <NavLink to="/" end className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>Drivers</NavLink>
+        <NavLink to="/create" className={({isActive}) => "nav-link" + (isActive ? " active" : "")}>+ New Driver</NavLink>
+      </nav>
+      <div className="nav-status">
+        <div className="status-dot" />
+        <span>API — PORT 5050</span>
+      </div>
+    </header>
+  );
 }

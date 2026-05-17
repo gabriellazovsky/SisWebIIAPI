@@ -4,7 +4,6 @@ import { useParams, Link } from "react-router-dom";
 export default function DriverProfile() {
     const params = useParams();
 
-    // Creamos 3 estados para guardar las 3 cosas que vamos a pedir a la base de datos
     const [driver, setDriver] = useState(null);
     const [results, setResults] = useState([]);
     const [standings, setStandings] = useState([]);
@@ -19,19 +18,15 @@ export default function DriverProfile() {
                     return [];
                 };
 
-                // 1. Pedimos los datos personales del piloto
                 const driverRes = await fetch(`http://localhost:5050/drivers/${params.id}`);
                 const driverData = await driverRes.json();
 
-                // 2. Pedimos sus resultados en carreras
                 const resultsRes = await fetch(`http://localhost:5050/drivers/${params.id}/results`);
                 const resultsData = await resultsRes.json();
 
-                // 3. Pedimos sus clasificaciones en el campeonato
                 const standingsRes = await fetch(`http://localhost:5050/drivers/${params.id}/standings`);
                 const standingsData = await standingsRes.json();
 
-                // Guardamos todo en el estado de React
                 setDriver(driverData);
                 setResults(normalizeArray(resultsData));
                 setStandings(normalizeArray(standingsData));
@@ -46,12 +41,10 @@ export default function DriverProfile() {
         fetchDriverData();
     }, [params.id]);
 
-    // Pantalla de carga mientras llegan los datos
     if (loading) {
         return <div className="text-center mt-10 text-xl font-bold">⏳ Cargando telemetría del piloto...</div>;
     }
 
-    // Si el piloto no existe o el ID está mal
     if (!driver || driver.message === "Piloto no encontrado") {
         return <div className="text-center mt-10 text-xl text-red-500">❌ Piloto no encontrado</div>;
     }
