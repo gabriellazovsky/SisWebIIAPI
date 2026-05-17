@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-const LINKS = [
+const MAIN = [
   { to: "/",             label: "Drivers",      end: true },
   { to: "/constructors", label: "Constructors"             },
   { to: "/circuits",     label: "Circuits"                 },
+  { to: "/standings",    label: "Standings"                },
   { to: "/results",      label: "Results"                  },
 ];
 
 export default function Navbar() {
   const nav = useNavigate();
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="topbar">
       <div className="logo" onClick={() => nav("/")}>
@@ -17,7 +20,7 @@ export default function Navbar() {
         <span className="logo-db">Database</span>
       </div>
       <nav className="nav-links">
-        {LINKS.map(l => (
+        {MAIN.map(l => (
           <NavLink key={l.to} to={l.to} end={l.end}
             className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
             {l.label}

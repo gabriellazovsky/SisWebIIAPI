@@ -7,6 +7,7 @@ import EditDriver from "./pages/EditDriver.jsx";
 import Circuits from "./pages/Circuits.jsx";
 import Constructors from "./pages/Constructors.jsx";
 import Results from "./pages/Results.jsx";
+import Standings from "./pages/Standings.jsx";
 
 export const COLORS = ['#E10600','#00D2BE','#0067FF','#FF8000','#DC0000','#006F62','#B6BABD','#FF2800','#2B4562','#F596C8'];
 export const tc  = (id) => COLORS[(id || 0) % COLORS.length];
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/circuits" element={<Circuits />} />
             <Route path="/constructors" element={<Constructors />} />
             <Route path="/results" element={<Results />} />
+            <Route path="/standings" element={<Standings />} />
           </Routes>
         </div>
       </BrowserRouter>
