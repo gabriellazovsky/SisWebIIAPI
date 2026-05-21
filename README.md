@@ -66,7 +66,7 @@ Este proyecto ha sido desarrollado para la asignatura **Sistemas Web II**. Se tr
 ### 1. Clonar el repositorio
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone <https://github.com/gabriellazovsky/SisWebIIAPI>
 ```
 
 ---
@@ -146,10 +146,14 @@ http://localhost:5050
 
 ## OpenF1 API (JSON)
 
-Utilizada para:
+Utilizada para obtener información en tiempo real relacionada con Fórmula 1:
+
 - Weather
 - Race Control
 - Team Radio
+- Sessions
+
+API oficial:
 
 https://openf1.org/
 
@@ -159,7 +163,149 @@ https://openf1.org/
 
 Consumido para integrar noticias oficiales de Fórmula 1 en formato XML.
 
+Feed oficial:
+
 https://www.formula1.com/en/latest/all.xml
+
+---
+
+# 🚀 Cómo ejecutar el proyecto (Guía para el Profesor)
+
+## 1. Instalar dependencias
+
+Abra una terminal en la raíz del proyecto y ejecute:
+
+```bash
+npm install
+```
+
+---
+
+## 2. Iniciar el servidor de desarrollo
+
+```bash
+npm run dev
+```
+
+El servidor estará disponible en:
+
+```text
+http://localhost:5050
+```
+
+---
+
+## 3. Guía de prueba rápida
+
+> **Nota importante:**  
+> Por favor, siga el orden de los pasos.  
+> Las consultas de clima requieren un parámetro numérico (`session_key`) que se obtiene primero desde el endpoint de sesiones.
+
+---
+
+### Paso 1: Obtener sesiones disponibles
+
+Acceda al siguiente endpoint para visualizar las sesiones disponibles y obtener un `session_key` válido:
+
+```text
+http://localhost:5050/api/openf1/sessions
+```
+
+Este endpoint devuelve sesiones oficiales disponibles desde OpenF1.
+
+---
+
+### Paso 2: Consultar clima usando un session_key
+
+Una vez seleccionado un `session_key`, puede consultar información meteorológica:
+
+Ejemplo:
+
+```text
+http://localhost:5050/api/openf1/weather?session_key=1142
+```
+
+---
+
+### Enlaces de prueba directos
+
+Para facilitar la corrección del proyecto:
+
+🌤️ Clima (sesión 1142)
+
+```text
+http://localhost:5050/api/openf1/weather?session_key=1142
+```
+
+🌧️ Clima (sesión 1144)
+
+```text
+http://localhost:5050/api/openf1/weather?session_key=1144
+```
+
+🏁 Race Control
+
+```text
+http://localhost:5050/api/openf1/race-control?session_key=1144
+```
+
+🎙️ Team Radio
+
+```text
+http://localhost:5050/api/openf1/team-radio?session_key=1144
+```
+
+---
+
+# Sistema de tolerancia a fallos (Fallback)
+
+La API implementa un mecanismo de fallback para evitar fallos completos cuando la API externa no está disponible.
+
+Comportamiento:
+
+- Si OpenF1 responde correctamente → se devuelven datos en tiempo real.
+- Si OpenF1 falla o no devuelve resultados → se recuperan datos previamente almacenados en MongoDB.
+
+Esto garantiza continuidad del servicio incluso ante fallos externos.
+
+---
+
+# Webhook (Opcional implementado)
+
+Se ha implementado un webhook simulado para recepción de eventos externos relacionados con OpenF1.
+
+Endpoint:
+
+```text
+POST /api/webhooks/openf1
+```
+
+Ejemplo de payload:
+
+```json
+{
+  "event": "race_control",
+  "session_key": 9158,
+  "category": "Flag",
+  "message": "YELLOW FLAG",
+  "lap_number": 12
+}
+```
+
+Los eventos recibidos se almacenan en la colección:
+
+```text
+openf1_webhook_events
+```
+
+---
+
+# Fuentes de datos externas utilizadas por el backend
+
+Estas APIs son consumidas automáticamente por el sistema:
+
+- **OpenF1 API (JSON)** → clima, control de carrera, radio de equipos y sesiones
+- **Formula1 XML Feed** → noticias oficiales XML
 
 ---
 
@@ -181,32 +327,6 @@ documentation/schemas/drivers.xsd
 
 ---
 
-# Webhook
-
-Se implementó un webhook simulado para recepción de eventos OpenF1.
-
-Endpoint:
-
-```text
-POST /api/webhooks/openf1
-```
-
-Ejemplo:
-
-```json
-{
-  "event": "race_control",
-  "session_key": 9158,
-  "category": "Flag",
-  "message": "YELLOW FLAG",
-  "lap_number": 12
-}
-```
-
-Los eventos recibidos se almacenan en MongoDB.
-
----
-
 # Paginación y filtros
 
 La API implementa paginación y filtros para colecciones grandes.
@@ -223,16 +343,7 @@ Ejemplos:
 
 ---
 
-# Tolerancia a fallos
 
-La aplicación implementa un sistema de fallback:
-
-- Si OpenF1 falla → MongoDB devuelve últimos datos almacenados
-- Si el XML externo falla → se utilizan datos persistidos localmente
-
-Esto evita que la API deje de funcionar completamente.
-
----
 
 # OpenAPI
 
