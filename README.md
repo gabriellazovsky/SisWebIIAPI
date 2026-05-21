@@ -227,7 +227,7 @@ Esto devolverá sesiones disponibles con su `session_key`.
 
 ---
 
-## Paso 2: Consultar endpoints OpenF1
+## Paso 2a: Consultar endpoints OpenF1
 
 Usando un `session_key` válido:
 
@@ -248,8 +248,41 @@ http://localhost:5050/openf1/race-control?session_key=1144
 ```text
 http://localhost:5050/openf1/team-radio?session_key=1144
 ```
+# Paso 2b:  XML Feed Integration (Formula 1 News)
+
+El proyecto también consume una fuente XML oficial de Fórmula 1 
+Fuente utilizada:
+
+https://www.formula1.com/en/latest/all.xml
+
+Formato:
+
+```text
+XML
+```
+---
+
+## Endpoint implementado
+
+Para consumir las noticias procesadas desde el backend:
+
+```text
+http://localhost:5050/f1xml/news
+```
+---
+
+## Qué hace
+
+Este endpoint:
+
+- Consume el XML oficial de Formula 1
+- Parsea el contenido XML
+- Extrae las noticias relevantes
+- Convierte la información a formato utilizable por la aplicación
+- Devuelve los datos procesados desde nuestro backend
 
 ---
+
 
 # 🔁 Sistema fallback
 
