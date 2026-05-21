@@ -23,7 +23,7 @@ Este proyecto ha sido desarrollado para la asignatura **Sistemas Web II**. Se tr
 
 ### Tema Escogido
 
-***Formula 1 World Championship (1950 - 2026)***
+***Formula 1 World Championship (1950 - 2024)***
 
   > https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020?select=driver_standings.csv.
 
