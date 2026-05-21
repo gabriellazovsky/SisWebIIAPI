@@ -234,19 +234,19 @@ Usando un `session_key` válido:
 ### Weather
 
 ```text
-http://localhost:5050/openf1/weather?session_key=1142
+http://localhost:5050/openf1/weather?session_key=7772
 ```
 
 ### Race Control
 
 ```text
-http://localhost:5050/openf1/race-control?session_key=1144
+http://localhost:5050/openf1/race-control?session_key=7772
 ```
 
 ### Team Radio
 
 ```text
-http://localhost:5050/openf1/team-radio?session_key=1144
+http://localhost:5050/openf1/team-radio?session_key=7772
 ```
 ## Paso 2b:  XML Feed Integration (Formula 1 News)
 
@@ -267,7 +267,7 @@ XML
 Para consumir las noticias procesadas desde el backend:
 
 ```text
-http://localhost:5050/f1xml/news
+http://localhost:5050/f1-news-xml
 ```
 ---
 
