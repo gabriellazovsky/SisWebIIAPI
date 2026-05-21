@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\34611\\\\Desktop\\\\INGENIERIA_BIOMEDICA\\\\CUARTO_CARRERA\\\\SISTEMAS_WEB_II\\\\SisWebIIAPI\" -Recurse -Force)",
-      "Bash(Select-Object FullName)"
-    ]
-  }
-}
