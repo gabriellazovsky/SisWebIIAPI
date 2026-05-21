@@ -318,4 +318,5 @@ Schema XML:
 
 ```text
 documentation/schemas/drivers.xsd
+documentation/schemas/circuit.xsd
 ```
