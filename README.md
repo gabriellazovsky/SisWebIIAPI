@@ -169,7 +169,7 @@ https://www.formula1.com/en/latest/all.xml
 
 ---
 
-# 🚀 Cómo ejecutar el proyecto (Guía para el Profesor)
+# 🚀 Cómo ejecutar el proyecto 
 
 ## 1. Instalar dependencias
 
