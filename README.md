@@ -248,7 +248,7 @@ http://localhost:5050/openf1/race-control?session_key=1144
 ```text
 http://localhost:5050/openf1/team-radio?session_key=1144
 ```
-# Paso 2b:  XML Feed Integration (Formula 1 News)
+## Paso 2b:  XML Feed Integration (Formula 1 News)
 
 El proyecto también consume una fuente XML oficial de Fórmula 1 
 Fuente utilizada:
