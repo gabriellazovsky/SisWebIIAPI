@@ -4,6 +4,12 @@ vi.mock("../../db/conn.mjs", () => ({
   default: { collection: vi.fn() },
 }));
 
+vi.mock("../../utils/sendResponse.mjs", () => ({
+  sendResponse: vi.fn((req, res, status, data) => {
+    res.status(status).json(data);
+  }),
+}));
+
 import db from "../../db/conn.mjs";
 import {
   getAllDrivers,
@@ -19,7 +25,7 @@ import {
 } from "../../controllers/driverController.mjs";
 
 function mockReq(overrides = {}) {
-  return { query: {}, params: {}, body: {}, ...overrides };
+  return { query: {}, params: {}, body: {}, headers: {}, ...overrides };
 }
 
 function mockRes() {
@@ -46,11 +52,8 @@ describe("getAllDrivers", () => {
   it("returns 200 with drivers", async () => {
     db.collection.mockReturnValue({
       find: vi.fn().mockReturnValue({
-        skip: vi.fn().mockReturnThis(),
-        limit: vi.fn().mockReturnThis(),
         toArray: vi.fn().mockResolvedValue([driver]),
       }),
-      countDocuments: vi.fn().mockResolvedValue(1),
     });
 
     const res = mockRes();
@@ -62,11 +65,8 @@ describe("getAllDrivers", () => {
   it("returns 404 when no drivers found", async () => {
     db.collection.mockReturnValue({
       find: vi.fn().mockReturnValue({
-        skip: vi.fn().mockReturnThis(),
-        limit: vi.fn().mockReturnThis(),
         toArray: vi.fn().mockResolvedValue([]),
       }),
-      countDocuments: vi.fn().mockResolvedValue(0),
     });
 
     const res = mockRes();

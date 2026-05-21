@@ -4,6 +4,12 @@ vi.mock("../../db/conn.mjs", () => ({
   default: { collection: vi.fn() },
 }));
 
+vi.mock("../../utils/sendResponse.mjs", () => ({
+  sendResponse: vi.fn((req, res, status, data) => {
+    res.status(status).json(data);
+  }),
+}));
+
 import db from "../../db/conn.mjs";
 import {
   getAllCircuits,
@@ -14,7 +20,7 @@ import {
 } from "../../controllers/circuitController.mjs";
 
 function mockReq(overrides = {}) {
-  return { query: {}, params: {}, body: {}, ...overrides };
+  return { query: {}, params: {}, body: {}, headers: {}, ...overrides };
 }
 
 function mockRes() {
@@ -31,18 +37,16 @@ const circuit = {
   circuitId: 1,
   circuitRef: "monza",
   name: "Monza",
-  location: "Italy",
+  location: "Monza",
   country: "Italy",
   lat: 45.6156,
-  lng: 9.2811
+  lng: 9.2811,
 };
 
 describe("getAllCircuits", () => {
   it("returns 200 with circuits", async () => {
     db.collection.mockReturnValue({
       find: vi.fn().mockReturnValue({
-        skip: vi.fn().mockReturnThis(),
-        limit: vi.fn().mockReturnThis(),
         toArray: vi.fn().mockResolvedValue([circuit]),
       }),
     });
@@ -56,8 +60,6 @@ describe("getAllCircuits", () => {
   it("returns 404 when no circuits found", async () => {
     db.collection.mockReturnValue({
       find: vi.fn().mockReturnValue({
-        skip: vi.fn().mockReturnThis(),
-        limit: vi.fn().mockReturnThis(),
         toArray: vi.fn().mockResolvedValue([]),
       }),
     });

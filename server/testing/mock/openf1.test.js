@@ -1,15 +1,7 @@
-import axios from "axios";
+import { describe, it, expect } from "vitest";
 
-const test = async () => {
-  try {
-    const response = await axios.get(
-      "https://api.openf1.org/v1/weather?session_key=9158"
-    );
-
-    console.log(response.data);
-  } catch (error) {
-    console.error(error.message);
-  }
-};
-
-test();
+describe("openf1 external API", () => {
+  it("placeholder — external API not tested in unit suite", () => {
+    expect(true).toBe(true);
+  });
+});
